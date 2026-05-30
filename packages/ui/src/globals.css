@@ -1,0 +1,160 @@
+/* Import Space Grotesk Font (Sharp edge geometric sans) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;850&display=swap');
+@import "tailwindcss";
+
+@source "../**/*.{ts,tsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Register custom gradient angle property */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@theme inline {
+  --font-display: "Space Grotesk", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+}
+
+:root {
+  --background: #f8fafc;
+  /* Soft grey-white */
+  --foreground: #0f172a;
+  /* Slate 900 */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --border: #e2e8f0;
+  /* Slate 200 */
+  --ring: rgba(59, 130, 246, 0.2);
+  --muted: #f1f5f9;
+  /* Slate 100 */
+  --muted-foreground: #64748b;
+  /* Slate 500 */
+}
+
+.dark {
+  --background: #090d16;
+  /* Decent Slate-Black */
+  --foreground: #f8fafc;
+  /* Slate 50 */
+  --card: #0f172a;
+  /* Slate 900 */
+  --card-foreground: #f8fafc;
+  --border: #1e293b;
+  /* Slate 800 */
+  --ring: rgba(59, 130, 246, 0.4);
+  --muted: #1e293b;
+  /* Slate 800 */
+  --muted-foreground: #94a3b8;
+  /* Slate 400 */
+}
+
+@layer utilities {
+
+  /* Dynamic gradient button matching requested styles */
+  .btn-gradient-interactive {
+    --angle: 0deg;
+    background-image: linear-gradient(var(--angle),
+        #38bdf8,
+        #0ea5e9,
+        #2563eb,
+        #1e40af);
+    transition: --angle 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-gradient-interactive:hover {
+    --angle: 45deg;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+/* Sticky Header Styles */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+/* View Transitions Theme Wipe */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Force incoming view to sit on top of old view to enable wipe animation */
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+/* Custom Text Selection Highlight */
+::selection {
+  background-color: oklch(62.3% 0.214 259.815 / 0.18) !important;
+}
+
+/* Keyframes for rotating border */
+@keyframes border-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Rotating Gradient Border Chip container - Double Layered */
+.rotating-chip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(14, 165, 233, 0.15);
+  /* Static light-blue ring background */
+  padding: 1.2px;
+  /* Uniform border width */
+  overflow: hidden;
+}
+
+.rotating-chip-glow {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  width: 250%;
+  /* Large enough square to cover the pill */
+  left: 50%;
+  top: 50%;
+  background: conic-gradient(from 0deg, transparent 35%, oklch(62.3% 0.214 259.815) 50%, transparent 65%);
+  animation: border-spin 4s linear infinite;
+  pointer-events: none;
+}
