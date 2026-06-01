@@ -3,6 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { techStackCategories } from "./tech-data";
+import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FiDownload } from "react-icons/fi";
+import { ContactButton } from "@repo/ui/contact-button";
 
 type TabType = "about" | "professional skills" | "services" | "contact";
 
@@ -67,10 +70,92 @@ const Icons = {
   ),
 };
 
+
+interface ContactAction {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  iconColor?: string;
+  primary?: boolean;
+  download?: boolean;
+}
+
+const contactActions: ContactAction[] = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/crown003",
+    icon: FaLinkedin,
+    iconColor: "",
+    primary: false,
+    download: false,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/your-number",
+    icon: FaWhatsapp,
+    iconColor: "",
+    primary: false,
+    download: false,
+  },
+  {
+    label: "Download Resume",
+    href: "/resume.pdf",
+    icon: FiDownload,
+    primary: true,
+    download: true,
+  }
+];
+
+
+const TABS: TabType[] = ["about", "professional skills", "services", "contact"];
+const AUTO_DELAY = 5000;   // 5 s – no interaction
+const USER_DELAY = 20000;  // 20 s – after an interaction
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("about");
   const scrollRef = useRef<HTMLDivElement>(null);
-  
+
+  // ── Auto-rotate state ────────────────────────────────────────────────
+  const [delay, setDelay] = useState(AUTO_DELAY);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const delayRef = useRef(AUTO_DELAY);
+
+  const clearTimers = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+  };
+
+  const startCycle = (currentDelay: number) => {
+    clearTimers();
+    // Advance tab when delay elapses
+    timerRef.current = setTimeout(() => {
+      setActiveTab((prev) => {
+        const idx = TABS.indexOf(prev);
+        return TABS[(idx + 1) % TABS.length];
+      });
+      // Always use AUTO_DELAY after an auto-advance
+      delayRef.current = AUTO_DELAY;
+      setDelay(AUTO_DELAY);
+    }, currentDelay);
+  };
+
+  // Restart cycle whenever activeTab or delay changes
+  useEffect(() => {
+    startCycle(delayRef.current);
+    return clearTimers;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, delay]);
+
+  // User interaction: reset to 20 s cooldown
+  const handleUserInteraction = () => {
+    if (delayRef.current !== USER_DELAY) {
+      delayRef.current = USER_DELAY;
+      setDelay(USER_DELAY); // triggers useEffect → restarts cycle
+    } else {
+      // Already in cooldown — just restart the 20 s window
+      startCycle(USER_DELAY);
+    }
+  };
+
   // Contact Form State
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
   const [contactSuccess, setContactSuccess] = useState(false);
@@ -115,19 +200,51 @@ export default function Dashboard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col gap-8 py-2"
+            className="flex flex-col gap-8 py-2 "
           >
             {/* Hero Profile Block */}
-            <div className="flex flex-col gap-2.5">
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground font-display tracking-tight leading-none">
-                Harshit Tiwari
-              </h3>
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 font-mono tracking-wide uppercase">
-                Full Stack Engineer
-              </p>
-              <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed font-sans max-w-2xl font-medium mt-1">
+            <div className="flex flex-col gap-4 max-w-2xl">
+              {/* Profile Header: Horizontal layout grouping name/title and avatar */}
+              <div className="flex items-center justify-start gap-4 sm:gap-6">
+                {/* Avatar Portrait with xl rounded borders */}
+                <img
+                  src="/profile.jpg"
+                  alt="Harshit Tiwari Portrait"
+                  className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border border-border shadow-xs"
+                />
+                {/* Name & Title Group: Kept tightly together for unified identity */}
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground font-display tracking-tight leading-none">
+                    Harshit Tiwari
+                  </h3>
+                  <p className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 font-mono tracking-wider uppercase">
+                    Full Stack Engineer
+                  </p>
+                </div>
+              </div>
+
+              {/* Description: Separated by a distinct layout gap for clear readability */}
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-sans max-w-2xl font-normal">
                 Building scalable web applications, developer tools, and modern digital experiences.
               </p>
+
+              {/* Social & Resume Actions: Given top padding so buttons don't crowd the text */}
+              <div className="flex flex-wrap items-center gap-3 pt-1.5">
+                {contactActions.map((action, idx) => {
+                  const Icon = action.icon;
+                  return (
+                    <ContactButton
+                      key={idx}
+                      href={action.href}
+                      primary={action.primary}
+                      download={action.download}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      <span>{action.label}</span>
+                    </ContactButton>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Metadata Grid */}
@@ -250,7 +367,7 @@ export default function Dashboard() {
                   >
                     <div className="w-9 h-9 rounded-lg bg-slate-500/5 border border-border flex items-center justify-center group-hover:border-slate-300 dark:group-hover:border-slate-700 transition-colors duration-300">
                       <span className="inline-block group-hover:rotate-12 transition-transform duration-300">
-                        <Icon  />
+                        <Icon />
                       </span>
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -390,8 +507,10 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="w-full border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-xs overflow-hidden flex flex-col relative transition-all duration-300">
-      
+    <div
+      className="w-full border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-[0_50px_100px_-20px_rgba(15,23,42,0.12),0_30px_60px_-30px_rgba(15,23,42,0.18),inset_0_1px_0_0_rgba(255,255,255,0.5)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),0_30px_60px_-30px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.05)] overflow-hidden flex flex-col relative transition-all duration-300"
+    >
+
       {/* macOS Window Title Bar Wrapper */}
       <div className="h-11 border-b border-border/80 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between relative px-4 select-none">
         {/* Left Side: Red, Yellow, Green traffic dots */}
@@ -414,12 +533,13 @@ export default function Dashboard() {
         </div>
       </div>
 
+
       {/* Main Grid Window Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-4 min-h-[500px]">
-        
+
         {/* Left Area: Viewport */}
         <div className="lg:col-span-3 p-6 sm:p-7 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-border/80">
-          
+
           <div className="flex-1 relative">
             <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
           </div>
@@ -428,7 +548,7 @@ export default function Dashboard() {
 
         {/* Right Area: Control Deck & Buttons Sidebar */}
         <div className="lg:col-span-1 p-6 flex flex-col gap-6 justify-between bg-slate-500/5 dark:bg-slate-900/10">
-          
+
           {/* Button stack */}
           <div className="flex flex-col gap-3">
             <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest block select-none">
@@ -448,12 +568,14 @@ export default function Dashboard() {
                 return (
                   <button
                     key={btn.id}
-                    onClick={() => setActiveTab(btn.id as TabType)}
-                    className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-between px-3.5 py-2.5 rounded-lg border font-sans text-xs font-bold transition-all duration-200 relative group cursor-pointer ${
-                      isActive
-                        ? "border-slate-800 bg-slate-900 text-white dark:border-slate-200 dark:bg-slate-100 dark:text-slate-900"
-                        : "border-transparent bg-slate-100/50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900 text-slate-500 hover:text-foreground dark:text-slate-400"
-                    }`}
+                    onClick={() => {
+                      handleUserInteraction();
+                      setActiveTab(btn.id as TabType);
+                    }}
+                    className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-between px-3.5 py-2.5 rounded-lg border font-sans text-xs font-bold transition-all duration-200 relative group cursor-pointer ${isActive
+                      ? "border-slate-800 bg-slate-900 text-white dark:border-slate-200 dark:bg-slate-100 dark:text-slate-900"
+                      : "border-transparent bg-slate-100/50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900 text-slate-500 hover:text-foreground dark:text-slate-400"
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       <span className="scale-95">

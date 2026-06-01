@@ -1,3 +1,60 @@
 @import "@repo/ui/globals";
 @source "../../packages/ui/src";
 
+@keyframes glow-y {
+  0% {
+    top: -150px;
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.8;
+  }
+  22% {
+    opacity: 0.8;
+  }
+  25% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes glow-x {
+  0% {
+    left: -150px;
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.8;
+  }
+  22% {
+    opacity: 0.8;
+  }
+  25% {
+    left: 100%;
+    opacity: 0;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-glow-y {
+  animation: glow-y infinite linear;
+}
+
+.animate-glow-x {
+  animation: glow-x infinite linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-glow-y,
+  .animate-glow-x {
+    animation: none !important;
+  }
+}
+

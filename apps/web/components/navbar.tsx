@@ -159,7 +159,7 @@ export default function Navbar() {
         initial={false}
         animate={{
           width: "100%",
-          maxWidth: "72rem",
+          maxWidth: "80rem",
           y: isStuck ? 8 : 0,
           borderRadius: "0.75rem",
           boxShadow: isStuck

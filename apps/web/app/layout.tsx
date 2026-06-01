@@ -25,12 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`bg-background text-foreground min-h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body className={`bg-background text-foreground min-h-screen flex flex-col overflow-x-hidden ${geistSans.variable} ${geistMono.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          {/* 90% Width Global Frame */}
-          <div className="w-[90%] max-w-6xl mx-auto flex-1 flex flex-col py-4 gap-8">
+          {/* 95% Width Global Frame */}
+          <div className="w-[95%] max-w-7xl mx-auto flex-1 flex flex-col py-4 gap-8">
             <Navbar />
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 flex flex-col selection:bg-sky-500/20 selection:text-sky-600">
               {children}
             </main>
           </div>

@@ -27,36 +27,34 @@
 }
 
 :root {
-  --background: #f8fafc;
-  /* Soft grey-white */
-  --foreground: #0f172a;
-  /* Slate 900 */
+  --background: #fff;
+  /* Soft, paper-like warm grey-white (reduced eye strain) */
+  --foreground: #171717;
+  /* Soft neutral charcoal-black */
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --border: #e2e8f0;
-  /* Slate 200 */
+  --card-foreground: #171717;
+  --border: #eaeaea;
+  /* Very thin, natural low-contrast border */
   --ring: rgba(59, 130, 246, 0.2);
-  --muted: #f1f5f9;
-  /* Slate 100 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
+  --muted: #f5f5f7;
+  /* Neutral off-white */
+  --muted-foreground: #737373;
+  /* Soft neutral gray */
 }
 
 .dark {
   --background: #090d16;
   /* Decent Slate-Black */
-  --foreground: #f8fafc;
-  /* Slate 50 */
-  --card: #0f172a;
-  /* Slate 900 */
-  --card-foreground: #f8fafc;
-  --border: #1e293b;
-  /* Slate 800 */
+  --foreground: #ededed;
+  /* Soft off-white */
+  --card: #0e0e11;
+  /* Premium dark card background */
+  --card-foreground: #ededed;
+  --border: #1f1f23;
+  /* Thin dark-mode border */
   --ring: rgba(59, 130, 246, 0.4);
-  --muted: #1e293b;
-  /* Slate 800 */
-  --muted-foreground: #94a3b8;
-  /* Slate 400 */
+  --muted: #18181c;
+  --muted-foreground: #a3a3a3;
 }
 
 @layer utilities {
@@ -117,9 +115,10 @@ header {
   z-index: 1;
 }
 
-/* Custom Text Selection Highlight */
+/* Custom Text Selection Highlight with Smooth Fade Transition */
 ::selection {
-  background-color: oklch(62.3% 0.214 259.815 / 0.18) !important;
+  background-color: oklch(62.3% 0.214 259.815 / 0.18);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Keyframes for rotating border */
