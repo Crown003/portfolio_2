@@ -130,7 +130,8 @@ export default function Dashboard() {
     timerRef.current = setTimeout(() => {
       setActiveTab((prev) => {
         const idx = TABS.indexOf(prev);
-        return TABS[(idx + 1) % TABS.length];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return TABS[(idx + 1) % TABS.length]!;
       });
       // Always use AUTO_DELAY after an auto-advance
       delayRef.current = AUTO_DELAY;
