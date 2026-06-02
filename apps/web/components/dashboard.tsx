@@ -1,7 +1,6 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { techStackCategories } from "./tech-data";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
@@ -143,7 +142,7 @@ export default function Dashboard() {
   useEffect(() => {
     startCycle(delayRef.current);
     return clearTimers;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, delay]);
 
   // User interaction: reset to 20 s cooldown
@@ -507,8 +506,41 @@ export default function Dashboard() {
     }
   };
 
+
+  const dashboardVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(10px)",
+  },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut", // Uses your standard easeInOut curve over 0.5s
+    },
+  },
+};
+
+  const contentVariants = {
+  initial: { opacity: 0, filter: "blur(4px)" },
+  animate: { 
+    opacity: 1, 
+    filter: "blur(0px)",
+    transition: { duration: 0.4, ease: "easeOut" }
+  },
+  exit: { 
+    opacity: 0, 
+    filter: "blur(4px)",
+    transition: { duration: 0.4, ease: "easeIn" }
+  }
+} as const; // <-- Right here
+
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={dashboardVariants}
       className="w-full border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-[0_50px_100px_-20px_rgba(15,23,42,0.12),0_30px_60px_-30px_rgba(15,23,42,0.18),inset_0_1px_0_0_rgba(255,255,255,0.5)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),0_30px_60px_-30px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.05)] overflow-hidden flex flex-col relative transition-all duration-300"
     >
 
@@ -542,7 +574,19 @@ export default function Dashboard() {
         <div className="lg:col-span-3 p-6 sm:p-7 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-border/80">
 
           <div className="flex-1 relative">
-            <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
+            <AnimatePresence mode="wait">
+              {/* CHANGED: Wrapped renderContent inside an elegant layout-aware motion container linked to activeTab */}
+              <motion.div
+                key={activeTab}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={contentVariants}
+                className="w-full h-full"
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
         </div>
@@ -610,6 +654,6 @@ export default function Dashboard() {
 
       </div>
 
-    </div>
+    </motion.div>
   );
 }

@@ -60,8 +60,7 @@ export default function Home() {
       </div>
 
       {/* Gridline Project Showcase Section */}
-      <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-background py-16 sm:py-24 overflow-hidden mt-16 sm:mt-24 border-t border-dashed border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset]">
-        {/* Full screen width content wrapper with custom layout sections */}
+      <div className="relative left-1/2 -translate-x-1/2 w-[100vw] bg-background py-16 sm:py-24 overflow-hidden mt-16 sm:mt-24 border-t border-dashed border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset]">{/* Full screen width content wrapper with custom layout sections */}
         <div className="w-full flex flex-col gap-12 relative z-10">
           {/* Header Row: Aligned to 95% width page layout constraint */}
           <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
@@ -73,15 +72,15 @@ export default function Home() {
                 A showcase of projects built with a focus on clean architecture, reliable performance, and smooth user experiences.
               </p>
             </div>
-            <div className="flex shrink-0">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 cursor-pointer select-none transition-all duration-200 shadow-md shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
-              >
-                <span>View All Projects</span>
-                <FiArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
+            <div className="p-6 md:p-8 border-none flex flex-col">
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 cursor-pointer select-none transition-all duration-200 shadow-md shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
+                >
+                  <span>View All Projects</span>
+                  <FiArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
           </div>
 
           {/* Bento Grid Layout: Cards breakout wide, borders drawn outside cards on grid cell dividers */}
@@ -231,6 +230,7 @@ export default function Home() {
                     </p>
                   </div>
 
+
                   {/* Simplified global distribution map SVG */}
                   <div className="absolute -bottom-6 -right-6 w-36 h-36 pointer-events-none">
                     <svg className="w-full h-full text-slate-300 dark:text-slate-700" viewBox="0 0 100 100" fill="none">
@@ -280,7 +280,6 @@ export default function Home() {
                   </div>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
