@@ -3,14 +3,15 @@ import Dashboard from "../components/dashboard";
 import Link from "next/link";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight } from "react-icons/fi";
+import Testimonials from "../components/testimonials";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col gap-10 pt-2 pb-10 sm:pt-4 sm:pb-12 font-sans antialiased text-foreground">
+    <div className="relative flex flex-col pt-6 sm:pt-10 pb-0 font-sans antialiased text-foreground">
       <HeroBackground />
 
       {/* Hero Content Section */}
-      <div className="flex flex-col items-start text-left gap-6 max-w-3xl px-1">
+      <div className="flex flex-col items-start text-left gap-7 max-w-3xl px-1">
 
         {/* Pill Alert Badge with Static Ring & Revolving Gradient Border */}
         <div className="rotating-chip-container">
@@ -31,7 +32,7 @@ export default function Home() {
         </p>
 
         {/* Dual CTA Buttons */}
-        <div className="flex items-center gap-3.5 mt-2">
+        <div className="flex items-center gap-3.5 mt-4">
           <a
             href="#dashboard-section"
             className="inline-flex items-center gap-1.5 bg-slate-900  hover:opacity-90 px-5 py-2.5 rounded-lg font-bold text-sm select-none text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 transition-all duration-200 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-98 dark:bg-white dark:text-black dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
@@ -53,17 +54,18 @@ export default function Home() {
       </div>
 
       {/* Spaced Anchor for Interactive Dashboard */}
-      <div id="dashboard-section" className="w-full mt-10 relative group/dashboard">
+      <div id="dashboard-section" className="w-full mt-20 sm:mt-28 pb-40 mask-b-from-95 relative group/dashboard">
         {/* Ambient background glow shadow - Monochromatic Slate/Gray */}
-        <div className="absolute -inset-10 rounded-[3rem] bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
+      <div className="absolute -inset-10 rounded-[3rem]  bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
         <Dashboard />
       </div>
 
       {/* Gridline Project Showcase Section */}
-      <div className="relative left-1/2 -translate-x-1/2 w-[100vw] bg-background py-16 sm:py-24 overflow-hidden mt-16 sm:mt-24 border-t border-dashed border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset]">{/* Full screen width content wrapper with custom layout sections */}
+      <div className="relative left-1/2 -translate-x-1/2 w-[100vw] bg-background overflow-hidden shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
+      {/* Full screen width content wrapper with custom layout sections */}
         <div className="w-full flex flex-col gap-12 relative z-10">
           {/* Header Row: Aligned to 95% width page layout constraint */}
-          <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
+          <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6 py-28 sm:py-32">
             <div className="flex flex-col gap-3 max-w-xl">
               <h2 className="text-xl text-balance sm:text-3xl font-extrabold tracking-tight text-foreground font-display leading-tight">
                 Transforming concepts into <span className="text-[oklch(62.3%_0.214_259.815)]">functional applications.</span>
@@ -72,7 +74,7 @@ export default function Home() {
                 A showcase of projects built with a focus on clean architecture, reliable performance, and smooth user experiences.
               </p>
             </div>
-            <div className="p-6 md:p-8 border-none flex flex-col">
+            <div className="flex flex-col">
                 <Link
                   href="/projects"
                   className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 cursor-pointer select-none transition-all duration-200 shadow-md shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
@@ -84,7 +86,7 @@ export default function Home() {
           </div>
 
           {/* Bento Grid Layout: Cards breakout wide, borders drawn outside cards on grid cell dividers */}
-          <div className="w-full">
+          <div className="w-full max-w-[100rem] mx-auto">
             <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-y border-dashed border-slate-200/80 dark:border-slate-800/80">
               {/* Repeating 45deg diagonal grid-line bg effect with bottom fade mask */}
               <div className="pointer-events-none absolute inset-0 z-0 bg-[repeating-linear-gradient(45deg,rgb(0_0_0/0.04)_0,rgb(0_0_0/0.04)_1px,transparent_1px,transparent_0.4rem)] dark:bg-[repeating-linear-gradient(45deg,rgb(255_255_255/0.04)_0,rgb(255_255_255/0.04)_1px,transparent_1px,transparent_0.4rem)] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" />
@@ -282,8 +284,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
+      <Testimonials />
     </div>
   );
 }

@@ -96,7 +96,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  /* width: 100%; */
 }
 
 /* View Transitions Theme Wipe */
@@ -113,12 +112,6 @@ header {
 
 ::view-transition-old(root) {
   z-index: 1;
-}
-
-/* Custom Text Selection Highlight with Smooth Fade Transition */
-::selection {
-  background-color: oklch(62.3% 0.214 259.815 / 0.18);
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Keyframes for rotating border */
@@ -157,3 +150,4 @@ header {
   animation: border-spin 4s linear infinite;
   pointer-events: none;
 }
+

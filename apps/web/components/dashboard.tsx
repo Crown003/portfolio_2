@@ -10,65 +10,174 @@ type TabType = "about" | "professional skills" | "services" | "contact";
 
 const StandardIcons = {
   Code: () => (
-    <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    <svg
+      className="w-5 h-5 text-slate-500 dark:text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+      />
     </svg>
   ),
   Smartphone: () => (
-    <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    <svg
+      className="w-5 h-5 text-slate-500 dark:text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+      />
     </svg>
   ),
   Palette: () => (
-    <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M9.7 9.3L14 5l4.3 4.3m-8.6 0l4.3 4.3m0 0L14 9.3" />
+    <svg
+      className="w-5 h-5 text-slate-500 dark:text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M9.7 9.3L14 5l4.3 4.3m-8.6 0l4.3 4.3m0 0L14 9.3"
+      />
     </svg>
   ),
   Briefcase: () => (
-    <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    <svg
+      className="w-5 h-5 text-slate-500 dark:text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
     </svg>
   ),
   Mail: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
     </svg>
   ),
   Globe: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+      />
     </svg>
   ),
   Send: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.5}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+      />
     </svg>
   ),
 };
 
 const Icons = {
   User: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+      />
     </svg>
   ),
   Briefcase: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
     </svg>
   ),
   Sparkles: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+      />
     </svg>
   ),
   Mail: () => (
-    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    <svg
+      className="w-4 h-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
     </svg>
   ),
 };
-
 
 interface ContactAction {
   label: string;
@@ -102,13 +211,12 @@ const contactActions: ContactAction[] = [
     icon: FiDownload,
     primary: true,
     download: true,
-  }
+  },
 ];
 
-
 const TABS: TabType[] = ["about", "professional skills", "services", "contact"];
-const AUTO_DELAY = 5000;   // 5 s – no interaction
-const USER_DELAY = 20000;  // 20 s – after an interaction
+const AUTO_DELAY = 5000; // 5 s – no interaction
+const USER_DELAY = 20000; // 20 s – after an interaction
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("about");
@@ -125,39 +233,38 @@ export default function Dashboard() {
 
   const startCycle = (currentDelay: number) => {
     clearTimers();
-    // Advance tab when delay elapses
     timerRef.current = setTimeout(() => {
       setActiveTab((prev) => {
         const idx = TABS.indexOf(prev);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return TABS[(idx + 1) % TABS.length]!;
       });
-      // Always use AUTO_DELAY after an auto-advance
       delayRef.current = AUTO_DELAY;
       setDelay(AUTO_DELAY);
     }, currentDelay);
   };
 
-  // Restart cycle whenever activeTab or delay changes
   useEffect(() => {
     startCycle(delayRef.current);
     return clearTimers;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, delay]);
 
-  // User interaction: reset to 20 s cooldown
   const handleUserInteraction = () => {
     if (delayRef.current !== USER_DELAY) {
       delayRef.current = USER_DELAY;
       setDelay(USER_DELAY); // triggers useEffect → restarts cycle
     } else {
-      // Already in cooldown — just restart the 20 s window
       startCycle(USER_DELAY);
     }
   };
 
   // Contact Form State
-  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [contactSuccess, setContactSuccess] = useState(false);
 
   useEffect(() => {
@@ -174,25 +281,107 @@ export default function Dashboard() {
     setTimeout(() => setContactSuccess(false), 5000);
   };
 
+  // ── REFACTOR FIX: Isolated About Layout Blueprint to drive height ──
+  const renderAboutLayoutOnly = () => {
+    const metadata = [
+      { label: "Location", value: "India" },
+      { label: "Focus", value: "Full Stack Development" },
+      { label: "Specialization", value: "Web Platforms & Backend Systems" },
+      { label: "Availability", value: "Open for Freelance Projects" },
+    ];
+
+    const expertises = [
+      "Backend Architecture",
+      "API Design",
+      "Modern Frontend Development",
+      "Database Engineering",
+      "Performance Optimization",
+      "Cloud Deployment",
+    ];
+
+    return (
+      <div className="flex flex-col gap-8 py-2 md:max-h-99">
+        {/* Hero Profile Block */}
+        <div className="flex flex-col gap-4 max-w-2xl">
+          <div className="flex items-center justify-start gap-4 sm:gap-6">
+            <img
+              src="/profile.jpg"
+              alt="Harshit Tiwari Portrait"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border border-border shadow-xs"
+            />
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground font-display tracking-tight leading-none">
+                Harshit Tiwari
+              </h3>
+              <p className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 font-mono tracking-wider uppercase">
+                Full Stack Engineer
+              </p>
+            </div>
+          </div>
+
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-sans max-w-2xl font-normal">
+            Building scalable web applications, developer tools, and modern
+            digital experiences.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1.5">
+            {contactActions.map((action, idx) => {
+              const Icon = action.icon;
+              return (
+                <ContactButton
+                  key={idx}
+                  href={action.href}
+                  primary={action.primary}
+                  download={action.download}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{action.label}</span>
+                </ContactButton>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Metadata Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-y border-border/60 py-6">
+          {metadata.map((item, idx) => (
+            <div key={idx} className="flex flex-col gap-1 font-sans">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                {item.label}
+              </span>
+              <span className="text-sm font-bold text-foreground">
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Core Expertise Pills */}
+        <div className="flex flex-col gap-3.5">
+          <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest block font-bold">
+            Core Expertise
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {expertises.map((exp, idx) => (
+              <span
+                key={idx}
+                className="px-3.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-500/5 select-none flex items-center gap-0 hover:gap-2 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:border-slate-300 dark:hover:border-slate-700 hover:text-foreground transition-all duration-300 group cursor-default"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[oklch(62.3%_0.214_259.815)] scale-0 group-hover:scale-100 transition-all duration-300 ease-out shrink-0" />
+                <span className="transition-transform duration-300 ease-out">
+                  {exp}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "about":
-        const metadata = [
-          { label: "Location", value: "India" },
-          { label: "Focus", value: "Full Stack Development" },
-          { label: "Specialization", value: "Web Platforms & Backend Systems" },
-          { label: "Availability", value: "Open for Freelance Projects" },
-        ];
-
-        const expertises = [
-          "Backend Architecture",
-          "API Design",
-          "Modern Frontend Development",
-          "Database Engineering",
-          "Performance Optimization",
-          "Cloud Deployment",
-        ];
-
         return (
           <motion.div
             key="about"
@@ -200,84 +389,9 @@ export default function Dashboard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col gap-8 py-2 "
+            className="w-full h-full flex flex-col justify-between"
           >
-            {/* Hero Profile Block */}
-            <div className="flex flex-col gap-4 max-w-2xl">
-              {/* Profile Header: Horizontal layout grouping name/title and avatar */}
-              <div className="flex items-center justify-start gap-4 sm:gap-6">
-                {/* Avatar Portrait with xl rounded borders */}
-                <img
-                  src="/profile.jpg"
-                  alt="Harshit Tiwari Portrait"
-                  className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border border-border shadow-xs"
-                />
-                {/* Name & Title Group: Kept tightly together for unified identity */}
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground font-display tracking-tight leading-none">
-                    Harshit Tiwari
-                  </h3>
-                  <p className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 font-mono tracking-wider uppercase">
-                    Full Stack Engineer
-                  </p>
-                </div>
-              </div>
-
-              {/* Description: Separated by a distinct layout gap for clear readability */}
-              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-sans max-w-2xl font-normal">
-                Building scalable web applications, developer tools, and modern digital experiences.
-              </p>
-
-              {/* Social & Resume Actions: Given top padding so buttons don't crowd the text */}
-              <div className="flex flex-wrap items-center gap-3 pt-1.5">
-                {contactActions.map((action, idx) => {
-                  const Icon = action.icon;
-                  return (
-                    <ContactButton
-                      key={idx}
-                      href={action.href}
-                      primary={action.primary}
-                      download={action.download}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      <span>{action.label}</span>
-                    </ContactButton>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Metadata Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-y border-border/60 py-6">
-              {metadata.map((item, idx) => (
-                <div key={idx} className="flex flex-col gap-1 font-sans">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                    {item.label}
-                  </span>
-                  <span className="text-sm font-bold text-foreground">
-                    {item.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Core Expertise Pills */}
-            <div className="flex flex-col gap-3.5">
-              <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest block font-bold">
-                Core Expertise
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {expertises.map((exp, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-500/5 select-none flex items-center gap-0 hover:gap-2 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:border-slate-300 dark:hover:border-slate-700 hover:text-foreground transition-all duration-300 group cursor-default"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[oklch(62.3%_0.214_259.815)] scale-0 group-hover:scale-100 transition-all duration-300 ease-out shrink-0" />
-                    <span className="transition-transform duration-300 ease-out">{exp}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
+            {renderAboutLayoutOnly()}
           </motion.div>
         );
 
@@ -289,11 +403,7 @@ export default function Dashboard() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col gap-4 py-2 max-h-[380px] overflow-y-auto pr-3 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800"
-            style={{
-              maskImage: "linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)",
-            }}
+            className="w-full h-full flex flex-col gap-4 py-2 overflow-y-auto "
           >
             {techStackCategories.map((cat, idx) => (
               <div key={idx} className="flex flex-col gap-1.5">
@@ -400,43 +510,63 @@ export default function Dashboard() {
                 Let's collaborate
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-sans">
-                I'm open to discussing web applications, mobile architectures, consultations, or design work. Send a message directly or connect via social networks.
+                I'm open to discussing web applications, mobile architectures,
+                consultations, or design work. Send a message directly or
+                connect via social networks.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
               {/* Form panel */}
-              <form onSubmit={handleContactSubmit} className="md:col-span-7 flex flex-col gap-3">
+              <form
+                onSubmit={handleContactSubmit}
+                className="md:col-span-7 flex flex-col gap-3"
+              >
                 <div className="flex flex-col gap-1">
-                  <label className="text-[9px] font-mono text-slate-400 uppercase">Your Name</label>
+                  <label className="text-[9px] font-mono text-slate-400 uppercase">
+                    Your Name
+                  </label>
                   <input
                     type="text"
                     value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    onChange={(e) =>
+                      setContactForm({ ...contactForm, name: e.target.value })
+                    }
                     className="bg-card border border-border rounded-lg px-3 py-2 text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600"
                     placeholder="Jane Doe"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[9px] font-mono text-slate-400 uppercase">Email Address *</label>
+                  <label className="text-[9px] font-mono text-slate-400 uppercase">
+                    Email Address *
+                  </label>
                   <input
                     type="email"
                     required
                     value={contactForm.email}
-                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    onChange={(e) =>
+                      setContactForm({ ...contactForm, email: e.target.value })
+                    }
                     className="bg-card border border-border rounded-lg px-3 py-2 text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600"
                     placeholder="jane@example.com"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[9px] font-mono text-slate-400 uppercase">Message *</label>
+                  <label className="text-[9px] font-mono text-slate-400 uppercase">
+                    Message *
+                  </label>
                   <textarea
                     required
                     rows={4}
                     value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    onChange={(e) =>
+                      setContactForm({
+                        ...contactForm,
+                        message: e.target.value,
+                      })
+                    }
                     className="bg-card border border-border rounded-lg px-3 py-2 text-xs font-sans text-foreground resize-none focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600"
                     placeholder="Let's build something..."
                   />
@@ -496,7 +626,9 @@ export default function Dashboard() {
                     className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     <StandardIcons.Globe />
-                    <span className="font-semibold">linkedin.com/in/harshit</span>
+                    <span className="font-semibold">
+                      linkedin.com/in/harshit
+                    </span>
                   </a>
                 </div>
               </div>
@@ -506,44 +638,43 @@ export default function Dashboard() {
     }
   };
 
-
   const dashboardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    filter: "blur(10px)",
-  },
-  visible: {
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut", // Uses your standard easeInOut curve over 0.5s
+    hidden: {
+      opacity: 0,
+      filter: "blur(10px)",
     },
-  },
-};
+    visible: {
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut", // Uses your standard easeInOut curve over 0.5s
+      },
+    },
+  };
 
-  const contentVariants = {
-  initial: { opacity: 0, filter: "blur(4px)" },
-  animate: { 
-    opacity: 1, 
-    filter: "blur(0px)",
-    transition: { duration: 0.4, ease: "easeOut" }
-  },
-  exit: { 
-    opacity: 0, 
-    filter: "blur(4px)",
-    transition: { duration: 0.4, ease: "easeIn" }
-  }
-} as const; // <-- Right here
+  const contentVariants: Variants = {
+    initial: { opacity: 0, filter: "blur(4px)" },
+    animate: {
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
+    exit: {
+      opacity: 0,
+      filter: "blur(4px)",
+      transition: { duration: 0.4, ease: "easeIn" },
+    },
+  };
 
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={dashboardVariants}
-      className="w-full border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-[0_50px_100px_-20px_rgba(15,23,42,0.12),0_30px_60px_-30px_rgba(15,23,42,0.18),inset_0_1px_0_0_rgba(255,255,255,0.5)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),0_30px_60px_-30px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.05)] overflow-hidden flex flex-col relative transition-all duration-300"
+      // REFACTOR FIX: Changed h-[85dvh] xl:max-h-fit to pure 'h-fit' & 'overflow-hidden'
+      className="w-full h-fit scroll-mt-4 border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-[0_50px_100px_-20px_rgba(15,23,42,0.12),0_30px_60px_-30px_rgba(15,23,42,0.18),inset_0_1px_0_0_rgba(255,255,255,0.5)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),0_30px_60px_-30px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.05)] overflow-hidden flex flex-col relative transition-all duration-300"
     >
-
       {/* macOS Window Title Bar Wrapper */}
       <div className="h-11 border-b border-border/80 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between relative px-4 select-none">
         {/* Left Side: Red, Yellow, Green traffic dots */}
@@ -555,7 +686,9 @@ export default function Dashboard() {
 
         {/* Center: URL address bar */}
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-1.5 bg-slate-200/50 dark:bg-slate-800/50 px-4 py-1 rounded-md text-[10px] text-slate-500 dark:text-slate-400 font-mono w-48 sm:w-64 border border-border/40 select-all cursor-pointer">
-          <span className="text-[9px] text-slate-400 dark:text-slate-500">🔒</span>
+          <span className="text-[9px] text-slate-400 dark:text-slate-500">
+            🔒
+          </span>
           <span>Harshit.tiwari/{activeTab}</span>
         </div>
 
@@ -566,16 +699,22 @@ export default function Dashboard() {
         </div>
       </div>
 
-
       {/* Main Grid Window Workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 min-h-[500px]">
+      <div className="grid grid-cols-1 lg:grid-cols-4 min-h-[500px] relative">
+        {/* Left Area: Viewport Container */}
+        <div className="lg:col-span-3 p-6 sm:p-7 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-border/80 relative">
+          <div
+            className="invisible pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            {renderAboutLayoutOnly()}
+          </div>
 
-        {/* Left Area: Viewport */}
-        <div className="lg:col-span-3 p-6 sm:p-7 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-border/80">
-
-          <div className="flex-1 relative">
+          {/* 2. REFACTOR FIX: Absolute mounted viewport container stage for standard flow */}
+          {/* 2. Absolute Mounted Viewport Container Stage */}
+          {/* CHANGE: Changed 'overflow-hidden' to 'overflow-y-auto' and added scrollbar hiding classes */}
+          <div className="absolute inset-0 p-6 sm:p-7 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
             <AnimatePresence mode="wait">
-              {/* CHANGED: Wrapped renderContent inside an elegant layout-aware motion container linked to activeTab */}
               <motion.div
                 key={activeTab}
                 initial="initial"
@@ -588,12 +727,10 @@ export default function Dashboard() {
               </motion.div>
             </AnimatePresence>
           </div>
-
         </div>
 
         {/* Right Area: Control Deck & Buttons Sidebar */}
         <div className="lg:col-span-1 p-6 flex flex-col gap-6 justify-between bg-slate-500/5 dark:bg-slate-900/10">
-
           {/* Button stack */}
           <div className="flex flex-col gap-3">
             <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest block select-none">
@@ -603,7 +740,11 @@ export default function Dashboard() {
             <div className="flex flex-row lg:flex-col gap-2 w-full">
               {[
                 { id: "about", label: "About", icon: Icons.User },
-                { id: "professional skills", label: "Professional", icon: Icons.Briefcase },
+                {
+                  id: "professional skills",
+                  label: "Professional",
+                  icon: Icons.Briefcase,
+                },
                 { id: "services", label: "Services", icon: Icons.Sparkles },
                 { id: "contact", label: "Contact", icon: Icons.User },
               ].map((btn) => {
@@ -617,16 +758,19 @@ export default function Dashboard() {
                       handleUserInteraction();
                       setActiveTab(btn.id as TabType);
                     }}
-                    className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-between px-3.5 py-2.5 rounded-lg border font-sans text-xs font-bold transition-all duration-200 relative group cursor-pointer ${isActive
-                      ? "border-slate-800 bg-slate-900 text-white dark:border-slate-200 dark:bg-slate-100 dark:text-slate-900"
-                      : "border-transparent bg-slate-100/50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900 text-slate-500 hover:text-foreground dark:text-slate-400"
-                      }`}
+                    className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-between px-3.5 py-2.5 rounded-lg border font-sans text-xs font-bold transition-all duration-200 relative group cursor-pointer ${
+                      isActive
+                        ? "border-slate-800 bg-slate-900 text-white dark:border-slate-200 dark:bg-slate-100 dark:text-slate-900"
+                        : "border-transparent bg-slate-100/50 hover:bg-slate-100 dark:bg-slate-900/50 dark:hover:bg-slate-900 text-slate-500 hover:text-foreground dark:text-slate-400"
+                    }`}
                   >
                     <div className="flex items-center gap-2">
                       <span className="scale-95">
                         <IconComp />
                       </span>
-                      <span className="hidden sm:inline lg:inline tracking-tight">{btn.label}</span>
+                      <span className="hidden sm:inline lg:inline tracking-tight">
+                        {btn.label}
+                      </span>
                     </div>
 
                     {/* Small blue dot active indicator on the right of the button */}
@@ -644,16 +788,16 @@ export default function Dashboard() {
             <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
               <span className="text-green-400 animate-pulse">●</span> Status
             </span>
-            <span className="text-xs font-bold text-foreground">Available for Work</span>
+            <span className="text-xs font-bold text-foreground">
+              Available for Work
+            </span>
             <span className="text-[10px] text-slate-400 leading-normal">
-              Currently building the PopnFry Platform. Open to freelance projects and collaborations.
+              Currently building the PopnFry Platform. Open to freelance
+              projects and collaborations.
             </span>
           </div>
-
         </div>
-
       </div>
-
     </motion.div>
   );
 }
