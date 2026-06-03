@@ -11,10 +11,10 @@ export default function Home() {
       <HeroBackground />
 
       {/* Hero Content Section */}
-      <div className="flex flex-col items-start text-left gap-7 max-w-3xl px-1">
+      <div className="flex flex-col items-start text-left gap-5 md:gap-7 max-w-3xl px-1">
 
-        {/* Pill Alert Badge with Static Ring & Revolving Gradient Border */}
-        <div className="rotating-chip-container">
+        {/* Added mb-2 for mobile, resets to whatever your original layout needed on larger screens if necessary */}
+        <div className="rotating-chip-container mb-2 sm:mb-4">
           <div className="rotating-chip-glow" />
           <div className="relative z-10 flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-card text-xs font-semibold text-slate-600 dark:text-slate-400 select-none">
             <span>Building with passion</span>
@@ -22,20 +22,22 @@ export default function Home() {
         </div>
 
         {/* Massive Bold Title */}
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-[-0.025em] text-foreground leading-[1.08] font-display text-balance">
+        {/* Tightened leading on mobile (leading-[1.05]), returns to original (sm:leading-[1.08]) on larger screens */}
+        <h1 className="text-4xl sm:text-6xl text-start font-extrabold tracking-[-0.025em] text-foreground leading-[1.05] sm:leading-[1.08] font-display m-0">
           Building robust systems. Designing <span className="text-[oklch(62.3%_0.214_259.815)]">clean interfaces</span>.
         </h1>
 
         {/* Subtitle Description */}
-        <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed font-sans max-w-3xl font-normal text-balance">
+        {/* Added a tight mt-2 for mobile, and changed to leading-snug on mobile while resetting to leading-relaxed on desktop */}
+        <p className="mt-2 sm:mt-4 text-base sm:text-lg w-full text-start md:text-left text-slate-500 dark:text-slate-400 leading-snug sm:leading-relaxed font-sans max-w-3xl font-normal">
           I'm Harshit, A Full-Stack Engineer crafting reliable applications, scalable infrastructure, and polished user experiences while balancing technical excellence with practical business needs.
         </p>
 
         {/* Dual CTA Buttons */}
-        <div className="flex items-center gap-3.5 mt-4">
+        <div className="w-full text-center md:text-left flex flex-col md:flex-row items-center gap-3.5 mt-4">
           <a
             href="#dashboard-section"
-            className="inline-flex items-center gap-1.5 bg-slate-900  hover:opacity-90 px-5 py-2.5 rounded-lg font-bold text-sm select-none text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 transition-all duration-200 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-98 dark:bg-white dark:text-black dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
+            className="inline-flex justify-center w-full max-w-full md:w-fit items-center gap-1.5 bg-slate-900  hover:opacity-90 px-5 py-2.5 rounded-lg font-bold text-sm select-none text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 transition-all duration-200 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-98 dark:bg-white dark:text-black dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
           >
             <span>Explore My Works</span>
             <span className="text-xs">→</span>
@@ -44,7 +46,7 @@ export default function Home() {
           <Link
             href="/blogs"
             className="
-            border border-border bg-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/60 active:scale-97 transition-all px-5 py-2.5 rounded-lg font-bold text-sm text-slate-700 dark:text-slate-300 select-none ring ring-gray-50 dark:ring-transparent shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]
+            border border-border w-full md:w-fit max-w-full bg-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/60 active:scale-97 transition-all px-5 py-2.5 rounded-lg font-bold text-sm text-slate-700 dark:text-slate-300 select-none ring ring-gray-50 dark:ring-transparent shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]
             "
           >
             Read Blogs
@@ -54,35 +56,43 @@ export default function Home() {
       </div>
 
       {/* Spaced Anchor for Interactive Dashboard */}
-      <div id="dashboard-section" className="w-full mt-20 sm:mt-28 pb-40 mask-b-from-95 relative group/dashboard">
+      <div id="dashboard-section" className="w-full mt-20 sm:mt-28 pb-40 relative group/dashboard md:dark:[mask-image:linear-gradient(to_bottom,black_0%,black_80%,transparent_100%)]">
         {/* Ambient background glow shadow - Monochromatic Slate/Gray */}
-      <div className="absolute -inset-10 rounded-[3rem]  bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
+        <div className="absolute -inset-10 rounded-[3rem]  bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
         <Dashboard />
       </div>
 
       {/* Gridline Project Showcase Section */}
-      <div className="relative left-1/2 -translate-x-1/2 w-[100vw] bg-background overflow-hidden shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
-      {/* Full screen width content wrapper with custom layout sections */}
+      <div className="relative left-1/2 -translate-x-1/2 w-screen max-w-[100vw] overflow-x-hidden bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
+        {/* Full screen width content wrapper with custom layout sections */}
         <div className="w-full flex flex-col gap-12 relative z-10">
           {/* Header Row: Aligned to 95% width page layout constraint */}
-          <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6 py-28 sm:py-32">
-            <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="text-xl text-balance sm:text-3xl font-extrabold tracking-tight text-foreground font-display leading-tight">
+          {/* Tightened the massive vertical padding on mobile (py-12), returns to original (sm:py-32 md:py-28) on larger screens */}
+          <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 py-12 sm:py-32 md:py-28">
+
+            {/* Reduced gap between header and paragraph from gap-3 to gap-1.5 on mobile */}
+            <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
+
+              {/* Increased mobile text size to text-3xl (originally text-xl) and tightened leading to leading-none on mobile */}
+              <h2 className="text-3xl text-balance sm:text-3xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] sm:leading-tight">
                 Transforming concepts into <span className="text-[oklch(62.3%_0.214_259.815)]">functional applications.</span>
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-sans font-normal">
+
+              {/* Tightened paragraph line-height on mobile (leading-snug), returns to original (sm:leading-relaxed) on desktops */}
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug sm:leading-relaxed font-sans font-normal">
                 A showcase of projects built with a focus on clean architecture, reliable performance, and smooth user experiences.
               </p>
             </div>
+
             <div className="flex flex-col">
-                <Link
-                  href="/projects"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 cursor-pointer select-none transition-all duration-200 shadow-md shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
-                >
-                  <span>View All Projects</span>
-                  <FiArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 cursor-pointer select-none transition-all duration-200 shadow-md shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
+              >
+                <span>View All Projects</span>
+                <FiArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
           {/* Bento Grid Layout: Cards breakout wide, borders drawn outside cards on grid cell dividers */}

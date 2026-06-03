@@ -6,6 +6,23 @@ import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { ContactButton } from "@repo/ui/contact-button";
 
+// SSR-safe mobile detection.
+// useState(false) ensures server & first-client render always agree.
+// isMobile & mounted are only ever true AFTER hydration.
+function useIsMobile() {
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return { isMobile, mounted };
+}
+
 type TabType = "about" | "professional skills" | "services" | "contact";
 
 const StandardIcons = {
@@ -199,7 +216,7 @@ const contactActions: ContactAction[] = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/your-number",
+    href: "https://wa.me/6388132478",
     icon: FaWhatsapp,
     iconColor: "",
     primary: false,
@@ -221,6 +238,7 @@ const USER_DELAY = 20000; // 20 s – after an interaction
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("about");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { isMobile, mounted } = useIsMobile();
 
   // ── Auto-rotate state ────────────────────────────────────────────────
   const [delay, setDelay] = useState(AUTO_DELAY);
@@ -602,33 +620,31 @@ export default function Dashboard() {
 
                 <div className="flex flex-col gap-2.5 font-sans">
                   <a
-                    href="mailto:harshit@example.com"
+                    href="mailto:harshittiwari4u@gmail.com"
                     className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     <StandardIcons.Mail />
-                    <span className="font-semibold">harshit@example.com</span>
+                    <span className="font-semibold">harshittiwari4u@gmail.com</span>
                   </a>
 
                   <a
-                    href="https://github.com"
+                    href="https://github.com/Crown003"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     <StandardIcons.Globe />
-                    <span className="font-semibold">github.com/harshit</span>
+                    <span className="font-semibold">github.com/Crown003</span>
                   </a>
 
                   <a
-                    href="https://linkedin.com"
+                    href="https://x.com/Harshit003_"
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     <StandardIcons.Globe />
-                    <span className="font-semibold">
-                      linkedin.com/in/harshit
-                    </span>
+                    <span className="font-semibold">x.com/Harshit003_</span>
                   </a>
                 </div>
               </div>
@@ -648,31 +664,27 @@ export default function Dashboard() {
       filter: "blur(0px)",
       transition: {
         duration: 0.5,
-        ease: "easeInOut", // Uses your standard easeInOut curve over 0.5s
+        ease: "easeInOut",
       },
     },
   };
 
-  const contentVariants: Variants = {
-    initial: { opacity: 0, filter: "blur(4px)" },
-    animate: {
-      opacity: 1,
-      filter: "blur(0px)",
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      filter: "blur(4px)",
-      transition: { duration: 0.4, ease: "easeIn" },
-    },
-  };
+  const contentVariants: Variants =
+    mounted && isMobile
+      ? {
+          initial: { opacity: 0 },
+          animate: { opacity: 1, transition: { duration: 0.12 } },
+          exit: { opacity: 0, transition: { duration: 0.08 } },
+        }
+      : {
+          initial: { opacity: 0 },
+          animate: { opacity: 1, transition: { duration: 0.25, ease: "easeOut" } },
+          exit: { opacity: 0, transition: { duration: 0.2, ease: "easeIn" } },
+        };
 
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={dashboardVariants}
-      // REFACTOR FIX: Changed h-[85dvh] xl:max-h-fit to pure 'h-fit' & 'overflow-hidden'
+      initial={false}
       className="w-full h-fit scroll-mt-4 border border-border bg-card/45 backdrop-blur-md rounded-xl shadow-[0_50px_100px_-20px_rgba(15,23,42,0.12),0_30px_60px_-30px_rgba(15,23,42,0.18),inset_0_1px_0_0_rgba(255,255,255,0.5)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),0_30px_60px_-30px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.05)] overflow-hidden flex flex-col relative transition-all duration-300"
     >
       {/* macOS Window Title Bar Wrapper */}
@@ -714,10 +726,10 @@ export default function Dashboard() {
           {/* 2. Absolute Mounted Viewport Container Stage */}
           {/* CHANGE: Changed 'overflow-hidden' to 'overflow-y-auto' and added scrollbar hiding classes */}
           <div className="absolute inset-0 p-6 sm:p-7 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeTab}
-                initial="initial"
+                initial={false}
                 animate="animate"
                 exit="exit"
                 variants={contentVariants}
@@ -746,7 +758,7 @@ export default function Dashboard() {
                   icon: Icons.Briefcase,
                 },
                 { id: "services", label: "Services", icon: Icons.Sparkles },
-                { id: "contact", label: "Contact", icon: Icons.User },
+                { id: "contact", label: "Contact", icon: Icons.Mail },
               ].map((btn) => {
                 const IconComp = btn.icon;
                 const isActive = activeTab === btn.id;

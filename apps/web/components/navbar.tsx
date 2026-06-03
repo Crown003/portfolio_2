@@ -85,7 +85,25 @@ export default function Navbar() {
     const isDark = resolvedTheme === "dark";
     const nextTheme = isDark ? "light" : "dark";
 
-    if (!(document as any).startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Slide/view-transition animation only on md+ screens (≥768px)
+    const isMdOrLarger = window.matchMedia("(min-width: 768px)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // On mobile: kill all CSS transitions so the theme swap is instant
+    if (!isMdOrLarger) {
+      const style = document.createElement("style");
+      style.textContent = "*,*::before,*::after{transition:none!important}";
+      document.head.appendChild(style);
+      setTheme(nextTheme);
+      // Remove after two frames so the browser has painted the new colors
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => document.head.removeChild(style))
+      );
+      return;
+    }
+
+    // Desktop: use view-transition slide animation if supported
+    if (!(document as any).startViewTransition || prefersReducedMotion) {
       setTheme(nextTheme);
       return;
     }

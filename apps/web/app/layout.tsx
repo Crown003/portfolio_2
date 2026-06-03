@@ -19,16 +19,24 @@ export const metadata: Metadata = {
   description: "Personal Portfolio & Blog",
 };
 
+// Prevents pinch-zoom overflow & layout blowout on mobile
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5, // allow zoom but clamp wild zoom-out
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <body className={`bg-background  selection:bg-sky-500/20 selection:text-sky-600 text-foreground min-h-screen flex flex-col items-center justify-start overflow-x-hidden m-0 p-0 ${geistSans.variable} ${geistMono.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <div className="w-screen max-w-7xl flex flex-col pt-4 px-4 md:px-8 mx-auto box-border">
+          <div className="w-full max-w-7xl flex flex-col pt-4 px-4 md:px-8 mx-auto box-border">
             <Navbar />
             <main className="w-full flex-1 flex flex-col selection:bg-sky-500/20 selection:text-sky-600">
               {children}
