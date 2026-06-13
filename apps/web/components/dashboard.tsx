@@ -375,7 +375,7 @@ export default function Dashboard() {
         </div>
 
         {/* Core Expertise Pills */}
-        <div className="flex flex-col gap-3.5">
+        <div className="flex py-4 flex-col gap-3.5">
           <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest block font-bold">
             Core Expertise
           </span>
@@ -403,9 +403,9 @@ export default function Dashboard() {
         return (
           <motion.div
             key="about"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0,filter: "blur(6px)"}}
+            animate={{ opacity: 1,filter: "blur(0)" }}
+            exit={{ opacity: 0, scale: 0.98 ,filter: "blur(6px)" }}
             transition={{ duration: 0.2 }}
             className="w-full h-full flex flex-col justify-between"
           >
@@ -417,9 +417,9 @@ export default function Dashboard() {
         return (
           <motion.div
             key="professional skills"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, filter: "blur(10px)"}}
+            animate={{ opacity: 1, filter: "blur(0)" }}
+            exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.2 }}
             className="w-full h-full flex flex-col gap-4 py-2 overflow-y-auto "
           >
@@ -479,9 +479,9 @@ export default function Dashboard() {
         return (
           <motion.div
             key="services"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, filter: "blur(10px)"}}
+            animate={{ opacity: 1, filter: "blur(0)" }}
+            exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.2 }}
             className="flex flex-col gap-6 py-2"
           >
@@ -517,9 +517,9 @@ export default function Dashboard() {
         return (
           <motion.div
             key="contact"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, filter: "blur(10px)"}}
+            animate={{ opacity: 1, filter: "blur(0)" }}
+            exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.2 }}
             className="flex flex-col gap-6 py-2"
           >

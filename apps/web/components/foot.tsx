@@ -104,9 +104,8 @@ const SocialIcons = () => (
 
 const Foot = () => {
   const currentYear = new Date().getFullYear();
-
   return (
-    <div className="w-full h-full flex flex-col justify-between px-6 py-12 sm:px-8 sm:py-16 max-w-7xl mx-auto min-h-[60vh]">
+    <div className="w-full h-full flex flex-col justify-between px-6 py-12 sm:px-8 sm:py-16 max-w-7xl mx-auto">
 
       {/* ── Top Row: Brand + Nav columns ── */}
       <div className="flex flex-col md:flex-row gap-10 md:gap-16 flex-1">
