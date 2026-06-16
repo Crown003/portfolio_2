@@ -190,7 +190,7 @@ function TestimonialCard({ t, wrapperClassName = "" }: { t: Testimonial; wrapper
 // ── Main Layout Canvas Grid ──────────────────────────────────────────────────
 export default function Testimonials() {
   return (
-    <section className="relative w-screen left-1/2 -translate-x-1/2 bg-gray-50 dark:bg-background py-28 sm:py-32 overflow-hidden border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
+    <section className="relative left-1/2 -translate-x-1/2 w-screen bg-gray-50 dark:bg-background py-28 sm:py-32 overflow-hidden border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
       {/* Premium Minimal Backdrop Glow */}
       <div className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden">
         <div className="w-[70rem] h-[35rem] rounded-full bg-background dark:bg-background/20 blur-3xl -translate-y-1/3" />

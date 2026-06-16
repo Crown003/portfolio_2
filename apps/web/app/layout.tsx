@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <body className={`bg-background selection:bg-sky-500/20 selection:text-sky-600 text-foreground min-h-screen flex flex-col items-center justify-start m-0 p-0 ${geistSans.variable} ${geistMono.variable} font-sans overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Navbar />
@@ -42,7 +42,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
-          <footer className="relative w-screen  left-1/2 -translate-x-1/2 flex flex-col bg-background border-t border-border dark:shadow-[0_-1px_32px_-8px_rgba(0,0,0,0.55)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_100%)] shadow-[inset_-12px_-8px_40px_#46464620]">
+          <footer className="relative w-full flex flex-col bg-background border-t border-border dark:shadow-[0_-1px_32px_-8px_rgba(0,0,0,0.55)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_100%)] shadow-[inset_-12px_-8px_40px_#46464620]">
             <Foot/>
           </footer>
         </ThemeProvider>

@@ -62,7 +62,7 @@ export default function Home() {
       {/* Spaced Anchor for Interactive Dashboard */}
       <div
         id="dashboard-section"
-        className="w-full mt-20 sm:mt-28 pb-40 relative group/dashboard md:dark:[mask-image:linear-gradient(to_bottom,black_0%,black_80%,transparent_100%)]"
+        className="w-full mt-20 sm:mt-28 pb-40 relative group/dashboard md:dark:[mask-image:linear-gradient(to_bottom,black_0%,black_80%,transparent_100%)] overflow-x-clip"
       >
         {/* Ambient background glow shadow - Monochromatic Slate/Gray */}
         <div className="absolute -inset-10 rounded-[3rem]  bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
@@ -70,7 +70,7 @@ export default function Home() {
       </div>
 
       {/* Gridline Project Showcase Section */}
-      <div className="relative left-1/2 -translate-x-1/2 w-screen max-w-[100vw] overflow-x-hidden bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
+      <div className="relative left-1/2 -translate-x-1/2 w-screen bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
         {/* Full screen width content wrapper with custom layout sections */}
         <div className="w-full flex flex-col gap-12 relative z-10">
           {/* Header Row: Aligned to 95% width page layout constraint */}
