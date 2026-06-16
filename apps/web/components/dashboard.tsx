@@ -421,7 +421,7 @@ export default function Dashboard() {
             animate={{ opacity: 1, filter: "blur(0)" }}
             exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.2 }}
-            className="w-full h-full flex flex-col gap-4 py-2 overflow-y-auto "
+            className="w-full h-full flex flex-col gap-4 py-1 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none] "
           >
             {techStackCategories.map((cat, idx) => (
               <div key={idx} className="flex flex-col gap-1.5">
@@ -438,9 +438,9 @@ export default function Dashboard() {
                         className="flex flex-col items-center justify-center p-2 rounded-lg border border-border bg-card/30 hover:bg-slate-500/5 hover:border-sky-500/30 dark:hover:border-sky-400/20 hover:ring-1 hover:ring-sky-500/20 dark:hover:ring-sky-400/10 hover:shadow-[0_0_12px_rgba(14,165,233,0.02)] transition-all duration-300 select-none group cursor-default text-center"
                       >
                         <span className="text-slate-500 dark:text-slate-400 flex items-center justify-center shrink-0 w-10 h-10 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-all duration-300">
-                          <Icon className="w-9 h-9" />
+                          <Icon className="lg:w-9 lg:h-9 w-6 h-6" />
                         </span>
-                        <span className="text-[9px] font-mono font-medium text-slate-400 dark:text-slate-500 group-hover:text-foreground transition-colors duration-300 mt-1 leading-none">
+                        <span className="text-[7px] lg:text-[9px] font-mono font-medium text-slate-400 dark:text-slate-500 group-hover:text-foreground transition-colors duration-300 mt-1 leading-none">
                           {skill.name}
                         </span>
                       </div>
