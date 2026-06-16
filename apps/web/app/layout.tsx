@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "../components/navbar";
 import Foot from "../components/foot";
 import { ThemeProvider } from "../components/theme-provider";
+import SmoothScroll from "../components/smoothScroll";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +37,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <body className={`bg-background selection:bg-sky-500/20 selection:text-sky-600 text-foreground min-h-screen flex flex-col items-center justify-start m-0 p-0 ${geistSans.variable} ${geistMono.variable} font-sans overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <SmoothScroll>
           <Navbar />
           <div className="relative w-full max-w-7xl flex flex-col pt-4 px-4 md:px-8 mx-auto box-border flex-1">
             <main className="w-full flex-1 flex flex-col selection:bg-sky-500/20 selection:text-sky-600">
@@ -45,6 +47,7 @@ export default function RootLayout({
           <footer className="relative w-full flex flex-col bg-background border-t border-border dark:shadow-[0_-1px_32px_-8px_rgba(0,0,0,0.55)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_6%,black_100%)] shadow-[inset_-12px_-8px_40px_#46464620]">
             <Foot/>
           </footer>
+          </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>
