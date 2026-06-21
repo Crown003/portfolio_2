@@ -110,121 +110,94 @@ export default function Home() {
               {/* Repeating 45deg diagonal grid-line bg effect with bottom fade mask */}
               <div className="pointer-events-none absolute inset-0 z-0 bg-[repeating-linear-gradient(45deg,rgb(0_0_0/0.04)_0,rgb(0_0_0/0.04)_1px,transparent_1px,transparent_0.4rem)] dark:bg-[repeating-linear-gradient(45deg,rgb(255_255_255/0.04)_0,rgb(255_255_255/0.04)_1px,transparent_1px,transparent_0.4rem)] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" />
 
-              {/* Cell 1: Hosting over the edge */}
-              <div className="p-6 md:p-8 border-b md:border-r lg:border-b lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
-                <Link
-                  href="/projects"
-                  className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md p-6 min-h-[250px] border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-sky-500/5 dark:hover:shadow-sky-500/5 hover:ring-1 hover:ring-sky-500/30 transition-all duration-300"
+              {/* Cell 1: POS System for Stalls & Small Businesses */}
+              <div className="p-6 md:p-8 border-b md:border-r lg:border-b lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col group/card">
+                <a
+                  href="/projects/pos-system"
+                  className="w-full h-full relative flex flex-col rounded-2xl overflow-hidden min-h-[310px] bg-slate-50 dark:bg-slate-900 shadow-sm shadow-slate-100 dark:shadow-none ring-1 ring-slate-200/50 dark:ring-slate-800/50 hover:shadow-xl hover:shadow-emerald-500/5 dark:hover:shadow-emerald-500/5 hover:ring-emerald-500/40 dark:hover:ring-emerald-500/40 transition-all duration-300"
                 >
-                  <div className="flex flex-col gap-2 relative z-10">
-                    <h4 className="text-base font-bold text-foreground font-display">
-                      Hosting over the edge
-                    </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-sans font-normal max-w-[200px]">
-                      With our edge network, we host your website by going into
-                      each city by ourselves.
-                    </p>
+                  {/* 1. Full-bleed background product showcase */}
+                  <img
+                    src="/pos-system.jpg"
+                    alt="POS System for Stalls & Small Businesses"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+
+                  {/* Vignette — darkens edges for premium depth */}
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.22)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)] z-[1] pointer-events-none" />
+
+                  {/* 3. Solid Angular Text Background - Insulates header readability */}
+                  <div
+                    className="absolute top-0 left-0 w-[60%] h-[68%] bg-white dark:bg-slate-950 blur-md z-[2] transition-colors duration-300"
+                    style={{
+                      clipPath: "polygon(0 0, 90% 0, 84% 46%, 0 50%)",
+                      WebkitClipPath: "polygon(0 0, 90% 0, 84% 46%, 0 50%)"
+                    }}
+                  />
+
+                  {/* 4. Active Content Container */}
+                  <div className="flex flex-col relative z-10 h-full justify-between p-6">
+
+                    {/* Header Text Block (Perfectly constrained within the solid clip zone) */}
+                    <div className="flex flex-col gap-2.5 max-w-[45%] pointer-events-none">
+                      <div className="flex items-center gap-2.5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white font-display group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors duration-300">
+                          POS System
+                        </h4>
+
+                        {/* Live Indicator */}
+                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 ring-1 ring-emerald-500/20 dark:ring-emerald-500/25">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+                          <span className="text-[7px] font-mono font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Live</span>
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-slate-600 dark:text-slate-300 group-hover/card:text-slate-900 group-hover/card:dark:text-slate-100 transition-colors duration-300 leading-relaxed font-sans font-medium">
+                        Smart billing & checkout system for stalls and small businesses. Serving 2 businesses in NCR.
+                      </p>
+                    </div>
+
+                    {/* Tech Stack Horizontal Scroll Strip — fully visible always */}
+                    <div className="w-full overflow-x-auto no-scrollbar mt-auto pt-6">
+                      <div className="flex items-center gap-2 whitespace-nowrap">
+
+                        {/* Flutter */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
+                          <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14.314 0L2.3 12 6 15.7 21.684.012h-7.37zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z" />
+                          </svg>
+                          Flutter
+                        </span>
+
+                        {/* Firebase */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
+                          <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3.89 15.672L6.255.461A.542.542 0 017.27.288l2.543 4.771zm16.794 3.692l-2.25-14a.54.54 0 00-.919-.295L3.316 19.365l7.856 4.427a1.621 1.621 0 001.588 0zM14.3 7.147l-1.356-2.558a.54.54 0 00-.96 0L3.89 15.672z" />
+                          </svg>
+                          Firebase
+                        </span>
+
+                        {/* Android */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
+                          <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0012 1.5c-.96 0-1.86.23-2.66.63L7.88.65c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.983 5.983 0 006 8h12a5.983 5.983 0 00-2.47-5.84zM10 6H9V5h1v1zm5 0h-1V5h1v1z" />
+                          </svg>
+                          Android
+                        </span>
+
+                        {/* Closed Source */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
+                          <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                          Closed Source
+                        </span>
+
+                      </div>
+                    </div>
+
                   </div>
-
-                  {/* Glowing 3D SVG Globe Graphic Mockup */}
-                  <div className="absolute -bottom-6 -right-6 w-36 h-36 pointer-events-none">
-                    <svg
-                      className="w-full h-full text-slate-300 dark:text-slate-700"
-                      viewBox="0 0 100 100"
-                      fill="none"
-                    >
-                      <defs>
-                        <radialGradient id="blueGlow" cx="50%" cy="50%" r="50%">
-                          <stop
-                            offset="0%"
-                            stopColor="#38bdf8"
-                            stopOpacity="0.5"
-                          />
-                          <stop
-                            offset="100%"
-                            stopColor="#38bdf8"
-                            stopOpacity="0"
-                          />
-                        </radialGradient>
-                        <radialGradient
-                          id="darkGlobeGrad"
-                          cx="50%"
-                          cy="50%"
-                          r="50%"
-                          fx="30%"
-                          fy="30%"
-                        >
-                          <stop offset="0%" stopColor="#1e293b" />
-                          <stop offset="70%" stopColor="#0f172a" />
-                          <stop offset="100%" stopColor="#020617" />
-                        </radialGradient>
-                      </defs>
-
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="46"
-                        className="fill-[url(#darkGlobeGrad)] stroke-slate-300/10 dark:stroke-slate-800/30"
-                        strokeWidth="0.5"
-                      />
-
-                      <path
-                        d="M 4 50 A 46 15 0 0 0 96 50"
-                        className="stroke-slate-300/10 dark:stroke-slate-800/40"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 4 50 A 46 30 0 0 0 96 50"
-                        className="stroke-slate-300/15 dark:stroke-slate-800/50"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 4 50 A 46 15 0 0 1 96 50"
-                        className="stroke-slate-300/10 dark:stroke-slate-800/40"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 4 50 A 46 30 0 0 1 96 50"
-                        className="stroke-slate-300/15 dark:stroke-slate-800/50"
-                        strokeWidth="0.5"
-                      />
-
-                      <path
-                        d="M 50 4 A 15 46 0 0 0 50 96"
-                        className="stroke-slate-300/10 dark:stroke-slate-800/40"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 50 4 A 30 46 0 0 0 50 96"
-                        className="stroke-slate-300/15 dark:stroke-slate-800/50"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 50 4 A 15 46 0 0 1 50 96"
-                        className="stroke-slate-300/10 dark:stroke-slate-800/40"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M 50 4 A 30 46 0 0 1 50 96"
-                        className="stroke-slate-300/15 dark:stroke-slate-800/50"
-                        strokeWidth="0.5"
-                      />
-
-                      <circle cx="50" cy="50" r="2" fill="#38bdf8" />
-                      <circle cx="50" cy="50" r="6" fill="url(#blueGlow)" />
-                      <circle cx="28" cy="28" r="1.5" fill="#38bdf8" />
-                      <circle cx="28" cy="28" r="4" fill="url(#blueGlow)" />
-                      <circle cx="72" cy="28" r="1.5" fill="#38bdf8" />
-                      <circle cx="72" cy="28" r="4" fill="url(#blueGlow)" />
-                      <circle cx="20" cy="50" r="1.5" fill="#38bdf8" />
-                      <circle cx="80" cy="50" r="2" fill="#38bdf8" />
-                      <circle cx="80" cy="50" r="6" fill="url(#blueGlow)" />
-                      <circle cx="35" cy="70" r="1.5" fill="#38bdf8" />
-                      <circle cx="65" cy="70" r="2" fill="#38bdf8" />
-                      <circle cx="65" cy="70" r="6" fill="url(#blueGlow)" />
-                    </svg>
-                  </div>
-                </Link>
+                </a>
               </div>
 
               {/* Cell 2: KD Home Tutorial Live Iframe */}
