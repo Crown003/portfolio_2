@@ -291,6 +291,37 @@ export default function Dashboard() {
     }
   }, [activeTab]);
 
+  // ── Smart wheel handler: capture scroll only when content overflows ──
+  // Prevents the Lenis ↔ native scroll conflict that causes page shaking.
+  // When content is scrollable and NOT at a boundary, stopPropagation()
+  // keeps the event from reaching Lenis. At boundaries or when there's
+  // no overflow, the event passes through to Lenis for smooth page scroll.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const hasOverflow = el.scrollHeight > el.clientHeight + 1;
+      if (!hasOverflow) return; // No overflow → let Lenis scroll the page
+
+      const isAtTop = el.scrollTop <= 0;
+      const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      const scrollingDown = e.deltaY > 0;
+      const scrollingUp = e.deltaY < 0;
+
+      // At a boundary scrolling outward → let Lenis scroll the page
+      if ((isAtTop && scrollingUp) || (isAtBottom && scrollingDown)) {
+        return;
+      }
+
+      // Content can scroll in this direction → capture it, don't let Lenis see it
+      e.stopPropagation();
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: true });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [activeTab]);
+
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactForm.email || !contactForm.message) return;
@@ -421,7 +452,7 @@ export default function Dashboard() {
             animate={{ opacity: 1, filter: "blur(0)" }}
             exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.2 }}
-            className="w-full h-full flex flex-col gap-4 py-1 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none] "
+            className="w-full flex flex-col gap-4 py-1"
           >
             {techStackCategories.map((cat, idx) => (
               <div key={idx} className="flex flex-col gap-1.5">
@@ -725,7 +756,7 @@ export default function Dashboard() {
           {/* 2. REFACTOR FIX: Absolute mounted viewport container stage for standard flow */}
           {/* 2. Absolute Mounted Viewport Container Stage */}
           {/* CHANGE: Changed 'overflow-hidden' to 'overflow-y-auto' and added scrollbar hiding classes */}
-          <div data-lenis-prevent className="absolute inset-0 p-6 sm:p-7 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div ref={scrollRef} className="absolute inset-0 p-6 sm:p-7 overflow-y-auto overscroll-contain scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeTab}
@@ -733,7 +764,7 @@ export default function Dashboard() {
                 animate="animate"
                 exit="exit"
                 variants={contentVariants}
-                className="w-full h-full"
+                className="w-full"
               >
                 {renderContent()}
               </motion.div>

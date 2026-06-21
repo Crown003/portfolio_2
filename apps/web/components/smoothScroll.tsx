@@ -13,11 +13,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
-      prevent: (node: HTMLElement) => {
-        // Let native scroll handle elements marked with data-lenis-prevent
-        // or any element inside such a container
-        return node.closest('[data-lenis-prevent]') !== null;
-      },
     });
 
     function raf(time: number) {
