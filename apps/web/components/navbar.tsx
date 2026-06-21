@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence, SVGMotionProps } from "framer-motion";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 // Scalable Links Array Structure
 const navLinks = [
@@ -12,7 +13,7 @@ const navLinks = [
   { label: "Services", href: "/Services" },
 ];
 
-const Path = (props: any) => (
+const Path = (props: SVGMotionProps<SVGPathElement>) => (
   <motion.path
     fill="transparent"
     strokeWidth="2.5"
@@ -59,11 +60,13 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean })
 );
 
 export default function Navbar() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { scrollY } = useScroll();
+  const { user, isLoaded, isSignedIn } = useUser();
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 30) {
@@ -96,12 +99,17 @@ export default function Navbar() {
       return;
     }
 
-    if (!(document as any).startViewTransition || prefersReducedMotion) {
+    interface DocumentWithViewTransition extends Document {
+      startViewTransition?: (callback: () => void) => void;
+    }
+    const doc = document as DocumentWithViewTransition;
+
+    if (!doc.startViewTransition || prefersReducedMotion) {
       setTheme(nextTheme);
       return;
     }
 
-    const transition = (document as any).startViewTransition(() => {
+    const transition = doc.startViewTransition(() => {
       const style = document.createElement("style");
       style.textContent = "*,*::before,*::after{transition:none!important}";
       document.head.appendChild(style);
@@ -255,12 +263,36 @@ export default function Navbar() {
                 )}
               </button>
 
-              <Link
-                href="/signin"
-                className="hidden md:inline-block btn-gradient-interactive text-xs sm:text-sm font-semibold text-white px-5 py-2.5 rounded-xl shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer"
-              >
-                Login
-              </Link>
+              {(!isLoaded || !isSignedIn) ? (
+                <div className="hidden md:flex items-center gap-2">
+                  <Link
+                    href="/sign-in"
+                    className="text-xs sm:text-sm font-semibold text-foreground px-4 py-2.5 rounded-xl border border-border hover:bg-slate-100/70 dark:hover:bg-slate-800/60 transition-all duration-300 cursor-pointer"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    className="btn-gradient-interactive text-xs sm:text-sm font-semibold text-white px-5 py-2.5 rounded-xl shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-3">
+                  {isAdmin && (
+                    <Link
+                      href="/admin"
+                      className="text-xs sm:text-sm font-semibold text-foreground px-4 py-2 rounded-xl border border-border hover:bg-slate-100/70 dark:hover:bg-slate-800/60 transition-all duration-300 cursor-pointer"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <div className="h-8 w-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden ring-2 ring-border">
+                    <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8" } }} />
+                  </div>
+                </div>
+              )}
 
               <MenuToggle toggle={() => setIsOpen(!isOpen)} isOpen={isOpen} />
             </div>
@@ -290,15 +322,41 @@ export default function Navbar() {
 
                 <motion.div
                   variants={linkVariants}
-                  className="flex flex-col mt-4 pt-4 border-t border-border/40"
+                  className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/40"
                 >
-                  <Link
-                    href="/signin"
-                    onClick={() => setIsOpen(false)}
-                    className="btn-gradient-interactive text-sm font-semibold text-white text-center py-2.5 rounded-xl shadow-xs"
-                  >
-                    Login
-                  </Link>
+                  {(!isLoaded || !isSignedIn) ? (
+                    <>
+                      <Link
+                        href="/sign-in"
+                        onClick={() => setIsOpen(false)}
+                        className="text-sm font-semibold text-foreground text-center py-2.5 rounded-xl border border-border hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/sign-up"
+                        onClick={() => setIsOpen(false)}
+                        className="btn-gradient-interactive text-sm font-semibold text-white text-center py-2.5 rounded-xl shadow-xs"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      {isAdmin && (
+                        <Link
+                          href="/admin"
+                          onClick={() => setIsOpen(false)}
+                          className="text-sm font-semibold text-foreground text-center py-2.5 rounded-xl border border-border hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
+                        >
+                          Admin Panel
+                        </Link>
+                      )}
+                      <div className="flex justify-center pt-2 pb-2">
+                        <UserButton afterSignOutUrl="/" />
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               </motion.div>
             )}

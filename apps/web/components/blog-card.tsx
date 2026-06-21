@@ -1,20 +1,43 @@
 import React from "react";
+import Link from "next/link";
 import { FiClock, FiCalendar, FiArrowRight } from "react-icons/fi";
 
 export interface BlogPost {
   id: string;
   title: string;
   excerpt: string;
-  category: "Engineering" | "Design" | "DevOps";
-  publishedAt: string;
+  content?: string;
+  category: string;
+  publishedAt: string | Date;
   readTime: string;
   tags: string[];
   featured?: boolean;
+  thumbnailUrl?: string | null;
+  projectSummary?: string | null;
+  projectApproach?: string | null;
+  _count?: {
+    comments: number;
+    likes: number;
+  };
 }
 
 interface BlogCardProps {
   post: BlogPost;
 }
+
+const formatDate = (dateInput: string | Date) => {
+  try {
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return String(dateInput);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return String(dateInput);
+  }
+};
 
 export default function BlogCard({ post }: BlogCardProps) {
   const isFeatured = !!post.featured;
@@ -30,7 +53,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           <div className="flex flex-col gap-3">
             {/* Meta information tags */}
             <div className="flex items-center gap-3 text-[10px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">
-              <span className="flex items-center gap-1"><FiCalendar /> {post.publishedAt}</span>
+              <span className="flex items-center gap-1"><FiCalendar /> {formatDate(post.publishedAt)}</span>
               <span>•</span>
               <span className="flex items-center gap-1"><FiClock /> {post.readTime}</span>
               <span>•</span>
@@ -63,10 +86,10 @@ export default function BlogCard({ post }: BlogCardProps) {
             </div>
 
             {/* Read Link */}
-            <button className="flex items-center gap-1 text-xs font-bold text-slate-700 dark:text-slate-300 group-hover/featured:text-foreground group-hover/featured:translate-x-1.5 transition-all duration-300 cursor-pointer select-none">
+            <Link href={`/blogs/${post.id}`} className="flex items-center gap-1 text-xs font-bold text-slate-700 dark:text-slate-300 group-hover/featured:text-foreground group-hover/featured:translate-x-1.5 transition-all duration-300 cursor-pointer select-none">
               <span>Read Article</span>
               <FiArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Link>
           </div>
 
         </div>
@@ -84,7 +107,7 @@ export default function BlogCard({ post }: BlogCardProps) {
         <div className="flex flex-col gap-2.5">
           {/* Metadata row */}
           <div className="flex items-center gap-2 text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">
-            <span className="flex items-center gap-0.5"><FiCalendar /> {post.publishedAt}</span>
+            <span className="flex items-center gap-0.5"><FiCalendar /> {formatDate(post.publishedAt)}</span>
             <span>•</span>
             <span className="flex items-center gap-0.5"><FiClock /> {post.readTime}</span>
             <span>•</span>
@@ -118,10 +141,10 @@ export default function BlogCard({ post }: BlogCardProps) {
           </div>
 
           {/* Read Link */}
-          <button className="flex items-center gap-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 group-hover/card:text-foreground group-hover/card:translate-x-1.5 transition-all duration-300 cursor-pointer select-none">
+          <Link href={`/blogs/${post.id}`} className="flex items-center gap-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 group-hover/card:text-foreground group-hover/card:translate-x-1.5 transition-all duration-300 cursor-pointer select-none">
             <span>Read Article</span>
             <FiArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </Link>
         </div>
 
       </div>

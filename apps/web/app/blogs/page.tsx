@@ -1,57 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSearch, FiBookOpen } from "react-icons/fi";
 import BlogCard, { BlogPost } from "../../components/blog-card";
 
-const MOCK_POSTS: BlogPost[] = [
-  {
-    id: "1",
-    title: "Optimizing Next.js API Latency under 50ms at Global Edge Nodes",
-    excerpt: "A deep dive into optimizing Edge Middleware, minimizing cold starts, choosing the right databases, and structuring serverless endpoints for speed.",
-    category: "Engineering",
-    publishedAt: "May 28, 2026",
-    readTime: "6 min read",
-    tags: ["Next.js", "Edge Computing", "Performance"],
-    featured: true,
-  },
-  {
-    id: "2",
-    title: "Exploring Tailwind CSS v4's New Engine and Declarative Layouts",
-    excerpt: "An exploration of Tailwind v4's CSS-first configuration, lightning-fast compile speeds, native CSS variable theme mapping, and clean utility patterns.",
-    category: "Design",
-    publishedAt: "May 15, 2026",
-    readTime: "4 min read",
-    tags: ["TailwindCSS", "CSS", "Frontend"],
-  },
-  {
-    id: "3",
-    title: "Designing Resilient API Architectures with TypeScript and OpenAPI",
-    excerpt: "Best practices for writing type-safe API routers, automated documentation generation, request schema validation, and decoupling infrastructure layers.",
-    category: "Engineering",
-    publishedAt: "April 30, 2026",
-    readTime: "8 min read",
-    tags: ["TypeScript", "API Design", "Backend"],
-  },
-  {
-    id: "4",
-    title: "A Practical Guide to CI/CD Pipelines for Monorepos using Turborepo",
-    excerpt: "How to structure remote caching, parallelize verification builds, optimize docker layers, and configure GitHub actions to run build checks in under 2 minutes.",
-    category: "DevOps",
-    publishedAt: "April 12, 2026",
-    readTime: "5 min read",
-    tags: ["Turborepo", "Docker", "CI/CD"],
-  },
-];
-
 type CategoryFilter = "All" | "Engineering" | "Design" | "DevOps";
 
 export default function BlogListing() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPosts = MOCK_POSTS.filter((post) => {
+  useEffect(() => {
+    async function loadBlogs() {
+      try {
+        const res = await fetch("/api/blogs");
+        if (res.ok) {
+          const data = await res.json();
+          setPosts(data);
+        }
+      } catch (err) {
+        console.error("Failed to load blogs:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBlogs();
+  }, []);
+
+  const filteredPosts = posts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
     const matchesSearch =
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -138,7 +117,18 @@ export default function BlogListing() {
       <div className="flex flex-col gap-10">
         
         <AnimatePresence mode="wait">
-          {filteredPosts.length === 0 ? (
+          {loading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-20 flex flex-col items-center justify-center gap-3 font-sans"
+            >
+              <div className="w-8 h-8 border-4 border-t-sky-500 border-sky-500/20 rounded-full animate-spin" />
+              <span className="text-xs text-slate-500">Loading articles...</span>
+            </motion.div>
+          ) : filteredPosts.length === 0 ? (
             <motion.div
               key="empty"
               initial={{ opacity: 0, y: 10 }}
