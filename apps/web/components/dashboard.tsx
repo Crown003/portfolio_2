@@ -725,7 +725,7 @@ export default function Dashboard() {
           {/* 2. REFACTOR FIX: Absolute mounted viewport container stage for standard flow */}
           {/* 2. Absolute Mounted Viewport Container Stage */}
           {/* CHANGE: Changed 'overflow-hidden' to 'overflow-y-auto' and added scrollbar hiding classes */}
-          <div className="absolute inset-0 p-6 sm:p-7 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div data-lenis-prevent className="absolute inset-0 p-6 sm:p-7 overflow-y-auto scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeTab}
