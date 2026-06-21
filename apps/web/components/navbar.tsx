@@ -306,7 +306,7 @@ export default function Navbar() {
         </motion.nav>
       </header>
       {/* Layout offset preservation spacer */}
-      <div className="h-20 w-full shrink-0" />
+      <div className={`w-full shrink-0 transition-all duration-300 ${isStuck ? "h-[76px]" : "h-[72px]"}`} />
     </>
   );
 }

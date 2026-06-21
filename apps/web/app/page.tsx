@@ -128,11 +128,7 @@ export default function Home() {
 
                   {/* 3. Solid Angular Text Background - Insulates header readability */}
                   <div
-                    className="absolute top-0 left-0 w-[60%] h-[68%] bg-white dark:bg-slate-950 blur-md z-[2] transition-colors duration-300"
-                    style={{
-                      clipPath: "polygon(0 0, 90% 0, 84% 46%, 0 50%)",
-                      WebkitClipPath: "polygon(0 0, 90% 0, 84% 46%, 0 50%)"
-                    }}
+                    className="absolute top-0 left-0 w-[60%] h-[68%] bg-white dark:bg-slate-950 z-[2] transition-colors duration-300 clip-pos-vignette"
                   />
 
                   {/* 4. Active Content Container */}

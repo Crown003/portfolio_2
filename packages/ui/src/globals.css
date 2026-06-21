@@ -166,3 +166,9 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* Custom clip path utility for dashboard vignettes */
+.clip-pos-vignette {
+  clip-path: polygon(0 0, 90% 0, 84% 46%, 0 50%);
+  -webkit-clip-path: polygon(0 0, 90% 0, 84% 46%, 0 50%);
+}
+

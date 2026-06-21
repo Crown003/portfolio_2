@@ -174,7 +174,7 @@ const Foot = () => {
           {" "}· All rights reserved.
         </p>
         <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/50 select-none font-sans">
-          <span>· Design Inspired by <a className="text-muted-foreground font-medium underline" href="https://ui.aceternity.com/" target="_blank" rel="noreferrer">Aceternity UI</a></span>
+          <span><span className="font-bold text-foreground text-[13px] mr-1">·</span>Design Inspired by <a className="text-muted-foreground font-medium underline" href="https://ui.aceternity.com/" target="_blank" rel="noreferrer">Aceternity UI</a></span>
         </div>
       </div>
     </div>
