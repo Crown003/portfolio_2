@@ -29,17 +29,10 @@ export default function SignInPage() {
           path="/sign-in"
           signUpUrl="/sign-up"
           appearance={{
-            layout: {
-              socialButtonsPlacement: "bottom",
-              socialButtonsVariant: "blockButton",
-            },
+
             variables: {
               colorPrimary: isDark ? "#ffffff" : "#000000",
               colorBackground: isDark ? "#0a0a0a" : "#ffffff",
-              colorText: isDark ? "#ffffff" : "#000000",
-              colorInputBackground: isDark ? "#171717" : "#ffffff",
-              colorInputText: isDark ? "#ffffff" : "#000000",
-              colorTextSecondary: isDark ? "#a3a3a3" : "#525252",
               borderRadius: "0.5rem",
             },
             elements: {

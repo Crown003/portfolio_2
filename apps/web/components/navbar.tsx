@@ -103,10 +103,7 @@ export default function Navbar() {
       return;
     }
 
-    interface DocumentWithViewTransition extends Document {
-      startViewTransition?: (callback: () => void) => void;
-    }
-    const doc = document as DocumentWithViewTransition;
+    const doc = document as any;
 
     if (!doc.startViewTransition || prefersReducedMotion) {
       setTheme(nextTheme);
@@ -298,7 +295,7 @@ export default function Navbar() {
                     </Link>
                   )}
                   <div className="h-8 w-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden ring-2 ring-border">
-                    <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8" } }} />
+                    <UserButton appearance={{ elements: { userButtonAvatarBox: "w-8 h-8" } }} />
                   </div>
                 </div>
               )}
@@ -367,7 +364,7 @@ export default function Navbar() {
                         </Link>
                       )}
                       <div className="flex justify-center pt-2 pb-2">
-                        <UserButton afterSignOutUrl="/" />
+                        <UserButton />
                       </div>
                     </>
                   )}
