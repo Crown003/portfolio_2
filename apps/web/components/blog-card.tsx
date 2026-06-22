@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { FiClock, FiCalendar, FiArrowRight } from "react-icons/fi";
+import { Skeleton } from "./skeleton";
 
 export interface BlogPost {
   id: string;
@@ -147,6 +148,65 @@ export default function BlogCard({ post }: BlogCardProps) {
           </Link>
         </div>
 
+      </div>
+    </div>
+  );
+}
+
+export function BlogCardSkeleton({ isFeatured = false }: { isFeatured?: boolean }) {
+  if (isFeatured) {
+    return (
+      <div className="w-full relative">
+        <div className="w-full border border-border bg-card/45 backdrop-blur-md rounded-2xl p-6 sm:p-8 flex flex-col justify-between gap-6 overflow-hidden">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <Skeleton className="w-20 h-4" />
+              <Skeleton className="w-16 h-4" />
+              <Skeleton className="w-24 h-5 rounded-md" />
+            </div>
+            <Skeleton className="w-3/4 h-8 sm:h-10 mt-2" />
+            <div className="flex flex-col gap-2 mt-2">
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-5/6 h-4" />
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-border/40 pt-6">
+            <div className="flex flex-wrap gap-1.5">
+              <Skeleton className="w-16 h-6 rounded-md" />
+              <Skeleton className="w-20 h-6 rounded-md" />
+              <Skeleton className="w-14 h-6 rounded-md" />
+            </div>
+            <Skeleton className="w-24 h-4" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full relative flex">
+      <div className="w-full border border-border bg-card/45 backdrop-blur-md rounded-xl p-6 flex flex-col justify-between gap-5 overflow-hidden">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <Skeleton className="w-16 h-3" />
+            <Skeleton className="w-12 h-3" />
+            <Skeleton className="w-20 h-4 rounded-md" />
+          </div>
+          <Skeleton className="w-4/5 h-6 mt-1" />
+          <div className="flex flex-col gap-1.5 mt-2">
+            <Skeleton className="w-full h-3" />
+            <Skeleton className="w-full h-3" />
+            <Skeleton className="w-2/3 h-3" />
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-border/40 pt-4 mt-1">
+          <div className="flex flex-wrap gap-1">
+            <Skeleton className="w-12 h-5 rounded-md" />
+            <Skeleton className="w-16 h-5 rounded-md" />
+          </div>
+          <Skeleton className="w-20 h-3" />
+        </div>
       </div>
     </div>
   );

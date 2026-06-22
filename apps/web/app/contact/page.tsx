@@ -3,11 +3,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FiSend, FiCheckCircle } from "react-icons/fi";
+import { LoadingSpinner } from "../../components/loading-spinner";
+import { useToast } from "../../components/toast-provider";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", content: "" });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,9 +21,15 @@ export default function ContactPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      if (res.ok) setSuccess(true);
+      if (res.ok) {
+        setSuccess(true);
+        showToast("success", "Message sent successfully!");
+      } else {
+        showToast("error", "Failed to send message.");
+      }
     } catch (err) {
       console.error(err);
+      showToast("error", "An error occurred while sending.");
     } finally {
       setSubmitting(false);
     }
@@ -68,8 +77,9 @@ export default function ContactPage() {
               <textarea required rows={5} value={formData.content} onChange={e => setFormData({...formData, content: e.target.value})} className="w-full p-4 bg-card/50 border border-border rounded-xl text-sm focus:outline-hidden focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/50 transition-all resize-none" placeholder="Tell me about your project..." />
             </div>
             <button disabled={submitting} type="submit" className="w-full py-4 bg-foreground text-background font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2">
-              <span>{submitting ? "Sending..." : "Send Message"}</span>
-              <FiSend className="w-4 h-4" />
+              {submitting ? <LoadingSpinner className="w-5 h-5" /> : null}
+              <span>{submitting ? "Sending Message..." : "Send Message"}</span>
+              {!submitting && <FiSend className="w-4 h-4" />}
             </button>
           </motion.form>
         )}

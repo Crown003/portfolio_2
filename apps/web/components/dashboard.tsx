@@ -5,6 +5,8 @@ import { techStackCategories } from "./tech-data";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { ContactButton } from "@repo/ui/contact-button";
+import { LoadingSpinner } from "./loading-spinner";
+import { useToast } from "./toast-provider";
 
 // SSR-safe mobile detection.
 // useState(false) ensures server & first-client render always agree.
@@ -251,6 +253,7 @@ export default function Dashboard() {
     email: "",
     message: "",
   });
+  const { showToast } = useToast();
   const [contactSuccess, setContactSuccess] = useState(false);
   const [submittingContact, setSubmittingContact] = useState(false);
 
@@ -359,9 +362,13 @@ export default function Dashboard() {
         setContactSuccess(true);
         setContactForm({ name: "", email: "", message: "" });
         setTimeout(() => setContactSuccess(false), 5000);
+        showToast("success", "Message sent successfully!");
+      } else {
+        showToast("error", "Failed to send message.");
       }
     } catch (err) {
       console.error(err);
+      showToast("error", "An error occurred while sending.");
     } finally {
       setSubmittingContact(false);
     }
@@ -661,9 +668,9 @@ export default function Dashboard() {
                 <button
                   disabled={submittingContact}
                   type="submit"
-                  className="mt-2 py-2 bg-slate-900 text-white dark:bg-white dark:text-black font-semibold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="mt-2 py-2 bg-slate-900 text-white dark:bg-white dark:text-black font-semibold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  <StandardIcons.Send />
+                  {submittingContact ? <LoadingSpinner className="w-3.5 h-3.5" /> : <StandardIcons.Send />}
                   <span>{submittingContact ? "Sending..." : "Send Message"}</span>
                 </button>
 

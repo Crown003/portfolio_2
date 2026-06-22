@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSearch, FiBookOpen } from "react-icons/fi";
-import BlogCard, { BlogPost } from "../../components/blog-card";
+import BlogCard, { BlogPost, BlogCardSkeleton } from "../../components/blog-card";
 
 type CategoryFilter = "All" | "Engineering" | "Design" | "DevOps";
 
@@ -123,10 +123,15 @@ export default function BlogListing() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-center py-20 flex flex-col items-center justify-center gap-3 font-sans"
+              className="flex flex-col gap-10 w-full"
             >
-              <div className="w-8 h-8 border-4 border-t-sky-500 border-sky-500/20 rounded-full animate-spin" />
-              <span className="text-xs text-slate-500">Loading articles...</span>
+              {selectedCategory === "All" && !searchQuery && <BlogCardSkeleton isFeatured={true} />}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <BlogCardSkeleton />
+                <BlogCardSkeleton />
+                <BlogCardSkeleton />
+                <BlogCardSkeleton />
+              </div>
             </motion.div>
           ) : filteredPosts.length === 0 ? (
             <motion.div

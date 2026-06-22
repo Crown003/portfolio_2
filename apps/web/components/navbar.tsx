@@ -33,6 +33,7 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean })
   >
     <svg width="18" height="18" viewBox="0 0 23 23">
       <Path
+        initial="closed"
         variants={{
           closed: { d: "M 2 2.5 L 20 2.5" },
           open: { d: "M 3 16.5 L 17 2.5" }
@@ -50,6 +51,7 @@ const MenuToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean })
         transition={{ duration: 0.2 }}
       />
       <Path
+        initial="closed"
         variants={{
           closed: { d: "M 2 16.346 L 20 16.346" },
           open: { d: "M 3 2.5 L 17 16.346" }
@@ -265,7 +267,12 @@ export default function Navbar() {
                 )}
               </button>
 
-              {(!isLoaded || !isSignedIn) ? (
+              {!isLoaded ? (
+                <div className="hidden md:flex items-center gap-2">
+                  <div className="w-16 h-9 animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                  <div className="w-20 h-9 animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                </div>
+              ) : !isSignedIn ? (
                 <div className="hidden md:flex items-center gap-2">
                   <Link
                     href="/sign-in"
@@ -326,7 +333,12 @@ export default function Navbar() {
                   variants={linkVariants}
                   className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/40"
                 >
-                  {(!isLoaded || !isSignedIn) ? (
+                  {!isLoaded ? (
+                    <>
+                      <div className="w-full h-10 animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                      <div className="w-full h-10 animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                    </>
+                  ) : !isSignedIn ? (
                     <>
                       <Link
                         href="/sign-in"

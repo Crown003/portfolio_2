@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FiTrash2, FiMail, FiCalendar } from "react-icons/fi";
+import { Skeleton } from "../../../components/skeleton";
 
 type Message = {
   id: string;
@@ -10,6 +11,25 @@ type Message = {
   content: string;
   createdAt: string;
 };
+
+function MessageCardSkeleton() {
+  return (
+    <div className="p-6 border border-border bg-card/45 backdrop-blur-sm rounded-2xl flex flex-col gap-4 relative shadow-sm overflow-hidden">
+      <Skeleton className="absolute top-6 right-6 w-5 h-5 rounded-md" />
+      <div className="flex items-start sm:items-center gap-4">
+        <Skeleton className="w-10 h-10 rounded-full shrink-0" />
+        <div className="flex flex-col gap-2 w-full">
+          <Skeleton className="w-32 h-4" />
+          <div className="flex flex-wrap items-center gap-3 mt-1">
+            <Skeleton className="w-36 h-3" />
+            <Skeleton className="w-24 h-3" />
+          </div>
+        </div>
+      </div>
+      <Skeleton className="w-full h-20 rounded-xl" />
+    </div>
+  );
+}
 
 export default function MessagesManager() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,7 +68,11 @@ export default function MessagesManager() {
       </div>
 
       {loading ? (
-        <div className="text-slate-500 text-sm">Loading messages...</div>
+        <div className="flex flex-col gap-4">
+          <MessageCardSkeleton />
+          <MessageCardSkeleton />
+          <MessageCardSkeleton />
+        </div>
       ) : messages.length === 0 ? (
         <div className="text-center py-20 text-slate-500 border border-border border-dashed rounded-2xl bg-card/20 text-sm font-medium">No messages found.</div>
       ) : (

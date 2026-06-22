@@ -2,7 +2,7 @@ import React from "react";
 import Dashboard from "../components/dashboard";
 import Link from "next/link";
 import HeroBackground from "../components/hero-background";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiBookOpen } from "react-icons/fi";
 import Testimonials from "../components/testimonials";
 import { db } from "@repo/database";
 
@@ -11,6 +11,9 @@ export default async function Home() {
     where: { showOnHomepage: true },
     orderBy: { createdAt: "desc" }
   });
+
+  const posProject = featuredProjects.find(p => p.title.toLowerCase().includes("pos"));
+  const kdProject = featuredProjects.find(p => p.title.toLowerCase().includes("kd") || p.title.toLowerCase().includes("home"));
 
   return (
     <div className="relative flex flex-col pt-6 sm:pt-10 pb-0 font-sans antialiased text-foreground">
@@ -118,10 +121,11 @@ export default async function Home() {
 
               {/* Cell 1: POS System for Stalls & Small Businesses */}
               <div className="p-6 md:p-8 border-b md:border-r lg:border-b lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col group/card">
-                <a
-                  href="/projects/pos-system"
+                <div
                   className="w-full h-full relative flex flex-col rounded-2xl overflow-hidden min-h-[310px] bg-slate-50 dark:bg-slate-900 shadow-sm shadow-slate-100 dark:shadow-none ring-1 ring-slate-200/50 dark:ring-slate-800/50 hover:shadow-xl hover:shadow-emerald-500/5 dark:hover:shadow-emerald-500/5 hover:ring-emerald-500/40 dark:hover:ring-emerald-500/40 transition-all duration-300"
                 >
+                  {/* Invisible Link to avoid nested <a> tags */}
+                  <Link href="/projects/pos-system" className="absolute inset-0 z-[3]" />
                   {/* 1. Full-bleed background product showcase */}
                   <img
                     src="/pos-system.jpg"
@@ -138,7 +142,7 @@ export default async function Home() {
                   />
 
                   {/* 4. Active Content Container */}
-                  <div className="flex flex-col relative z-10 h-full justify-between p-6">
+                  <div className="flex flex-col relative z-10 h-full justify-between p-6 pointer-events-none">
 
                     {/* Header Text Block (Perfectly constrained within the solid clip zone) */}
                     <div className="flex flex-col gap-2.5 max-w-[45%] pointer-events-none">
@@ -152,6 +156,12 @@ export default async function Home() {
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                           <span className="text-[7px] font-mono font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Live</span>
                         </span>
+
+                        {posProject?.blogPostId && (
+                          <Link href={`/blogs/${posProject.blogPostId}`} className="pointer-events-auto ml-2 flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500 text-white rounded-md text-[10px] font-bold hover:bg-emerald-600 transition-colors shadow-sm">
+                            <FiBookOpen /> Case Study
+                          </Link>
+                        )}
                       </div>
 
                       <p className="text-xs text-slate-600 dark:text-slate-300 group-hover/card:text-slate-900 group-hover/card:dark:text-slate-100 transition-colors duration-300 leading-relaxed font-sans font-medium">
@@ -160,7 +170,7 @@ export default async function Home() {
                     </div>
 
                     {/* Tech Stack Horizontal Scroll Strip — fully visible always */}
-                    <div className="w-full overflow-x-auto no-scrollbar mt-auto pt-6">
+                    <div className="w-full overflow-x-auto no-scrollbar mt-auto pt-6 pointer-events-auto">
                       <div className="flex items-center gap-2 whitespace-nowrap">
 
                         {/* Flutter */}
@@ -199,21 +209,20 @@ export default async function Home() {
                     </div>
 
                   </div>
-                </a>
+                </div>
               </div>
 
               {/* Cell 2: KD Home Tutorial Live Iframe */}
               <div className="p-6 md:p-8 lg:col-span-2 border-b lg:border-b border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
-                <a
-                  href="https://www.kdhometutorial.in/"
-                  target="_blank"
-                  rel="noreferrer"
+                <div
                   className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-amber-500/5 dark:hover:shadow-amber-500/5 hover:ring-1 hover:ring-amber-500/30 transition-all duration-300"
                 >
+                  {/* Invisible Link to avoid nested <a> tags */}
+                  <a href="https://www.kdhometutorial.in/" target="_blank" rel="noreferrer" className="absolute inset-0 z-[3]" />
                   {/* Browser Mockup Structure */}
                   <div className="w-full h-full flex flex-col overflow-hidden">
                     {/* macOS Window header bar */}
-                    <div className="h-9 border-b border-border/80 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-4 select-none shrink-0 relative z-10">
+                    <div className="h-9 border-b border-border/80 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-4 select-none shrink-0 relative z-10 pointer-events-none">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-[#ff5f56]/90" />
                         <span className="w-2 h-2 rounded-full bg-[#ffbd2e]/90" />
@@ -223,7 +232,14 @@ export default async function Home() {
                         <span>🔒</span>
                         <span>kdhometutorial.in</span>
                       </div>
-                      <div className="w-10 h-2" />
+                      
+                      {kdProject?.blogPostId ? (
+                        <Link href={`/blogs/${kdProject.blogPostId}`} className="pointer-events-auto flex items-center gap-1.5 px-2 py-1 bg-emerald-500 text-white rounded-md text-[9px] font-bold hover:bg-emerald-600 transition-colors shadow-sm">
+                          <FiBookOpen /> Case Study
+                        </Link>
+                      ) : (
+                        <div className="w-10 h-2" />
+                      )}
                     </div>
 
                     {/* Content area: Fixed aspect ratio/height to resolve iframe layout visibility */}
@@ -235,7 +251,7 @@ export default async function Home() {
                       />
                     </div>
                   </div>
-                </a>
+                </div>
               </div>
 
             </div>

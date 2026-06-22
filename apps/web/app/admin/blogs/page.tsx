@@ -26,6 +26,9 @@ import Link from "next/link";
 import { BlogPost } from "../../../components/blog-card";
 import { marked } from "marked";
 import { getSupabaseClient } from "../../../lib/supabase";
+import { LoadingSpinner } from "../../../components/loading-spinner";
+import { useToast } from "../../../components/toast-provider";
+import { Skeleton } from "../../../components/skeleton";
 
 type BlogFormState = Omit<BlogPost, "id" | "publishedAt" | "_count"> & {
   id?: string;
@@ -44,10 +47,22 @@ const initialFormState: BlogFormState = {
   projectApproach: "",
 };
 
-interface Toast {
-  id: string;
-  type: "success" | "error";
-  message: string;
+function BlogTableRowSkeleton() {
+  return (
+    <tr className="border-b border-border/40">
+      <td className="p-4 pl-6"><Skeleton className="w-48 h-4" /></td>
+      <td className="p-4"><Skeleton className="w-20 h-4 rounded-md" /></td>
+      <td className="p-4"><Skeleton className="w-16 h-4 rounded-full" /></td>
+      <td className="p-4"><Skeleton className="w-16 h-4" /></td>
+      <td className="p-4 pr-6">
+        <div className="flex items-center justify-end gap-2">
+          <Skeleton className="w-6 h-6 rounded-md" />
+          <Skeleton className="w-6 h-6 rounded-md" />
+          <Skeleton className="w-6 h-6 rounded-md" />
+        </div>
+      </td>
+    </tr>
+  );
 }
 
 export default function AdminDashboard() {
@@ -73,16 +88,7 @@ export default function AdminDashboard() {
   const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Floating Toasts
-  const [toasts, setToasts] = useState<Toast[]>([]);
-
-  const showToast = (type: "success" | "error", message: string) => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, type, message }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
-  };
+  const { showToast } = useToast();
 
   // Fetch blogs
   async function loadBlogs() {
@@ -335,42 +341,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="relative flex flex-col gap-8 pt-2 pb-16 sm:pt-4 sm:pb-24 font-sans antialiased text-foreground">
-      
-      {/* Toast Notification Container */}
-      <div className="fixed top-6 right-6 z-[60] flex flex-col gap-3 pointer-events-none max-w-sm w-full">
-        <AnimatePresence>
-          {toasts.map((toast) => (
-            <motion.div
-              key={toast.id}
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md shadow-lg ${
-                toast.type === "success"
-                  ? "bg-slate-900/90 border-emerald-500/30 text-white dark:bg-white/95 dark:text-black dark:border-emerald-600/20"
-                  : "bg-slate-900/90 border-rose-500/30 text-white dark:bg-white/95 dark:text-black dark:border-rose-600/20"
-              }`}
-            >
-              <div className="mt-0.5">
-                {toast.type === "success" ? (
-                  <FiCheck className="w-4 h-4 text-emerald-500" />
-                ) : (
-                  <FiAlertCircle className="w-4 h-4 text-rose-500" />
-                )}
-              </div>
-              <div className="flex-1 text-xs font-semibold leading-relaxed">
-                {toast.message}
-              </div>
-              <button
-                onClick={() => setToasts((prev) => prev.filter((t) => t.id !== toast.id))}
-                className="text-slate-400 hover:text-slate-200 dark:hover:text-slate-700 cursor-pointer"
-              >
-                <FiX className="w-3.5 h-3.5" />
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
 
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/80 pb-6">
@@ -404,7 +374,7 @@ export default function AdminDashboard() {
             placeholder="Filter articles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-card/45 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-slate-500/10 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors"
           />
         </div>
 
@@ -416,31 +386,38 @@ export default function AdminDashboard() {
 
       {/* Blogs listing table */}
       <div className="border border-border bg-card/45 backdrop-blur-md rounded-2xl overflow-hidden shadow-sm">
-        {loading ? (
-          <div className="text-center py-20 flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-4 border-t-sky-500 border-sky-500/20 rounded-full animate-spin" />
-            <span className="text-xs text-slate-500">Loading contents...</span>
-          </div>
-        ) : filteredPosts.length === 0 ? (
-          <div className="text-center py-20 flex flex-col items-center justify-center gap-2">
-            <FiAlertCircle className="w-8 h-8 text-slate-400" />
-            <span className="text-sm font-bold text-foreground">No articles found</span>
-            <span className="text-xs text-slate-500">Try creating one or modifying your search.</span>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-border/80 bg-slate-500/5 text-slate-400 text-[10px] font-mono uppercase tracking-wider font-bold">
-                  <th className="p-4 pl-6">Title</th>
-                  <th className="p-4">Category</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4">Read Time</th>
-                  <th className="p-4 pr-6 text-right">Actions</th>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-border/80 bg-slate-500/5 text-slate-400 text-[10px] font-mono uppercase tracking-wider font-bold">
+                <th className="p-4 pl-6">Title</th>
+                <th className="p-4">Category</th>
+                <th className="p-4">Status</th>
+                <th className="p-4">Read Time</th>
+                <th className="p-4 pr-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/40 text-xs sm:text-sm">
+              {loading ? (
+                <>
+                  <BlogTableRowSkeleton />
+                  <BlogTableRowSkeleton />
+                  <BlogTableRowSkeleton />
+                  <BlogTableRowSkeleton />
+                  <BlogTableRowSkeleton />
+                </>
+              ) : filteredPosts.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-10 text-center">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <FiAlertCircle className="w-8 h-8 text-slate-400" />
+                      <span className="text-sm font-bold text-foreground">No articles found</span>
+                      <span className="text-xs text-slate-500">Try creating one or modifying your search.</span>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-border/40 text-xs sm:text-sm">
-                {filteredPosts.map((post) => (
+              ) : (
+                filteredPosts.map((post) => (
                   <tr
                     key={post.id}
                     className="hover:bg-slate-500/5 transition-colors group"
@@ -492,11 +469,11 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Custom Delete Confirmation Modal */}
@@ -633,7 +610,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setFormData({ ...formData, title: e.target.value })
                       }
-                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors"
+                      className="w-full px-3.5 py-2 bg-slate-500/10 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all"
                     />
                   </div>
 
@@ -649,7 +626,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setFormData({ ...formData, excerpt: e.target.value })
                       }
-                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors resize-none"
+                      className="w-full px-3.5 py-2 bg-slate-500/10 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all resize-none"
                     />
                   </div>
 
@@ -662,7 +639,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                       }
-                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors cursor-pointer"
+                      className="w-full px-3.5 py-2 bg-slate-500/10 border border-border rounded-lg text-xs font-sans text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all cursor-pointer"
                     >
                       <option value="Engineering">Engineering</option>
                       <option value="Design">Design</option>
@@ -671,18 +648,18 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                      Read Time *
+                    <label className="block text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest mb-1.5">
+                      Read Time (e.g. "5 min read")
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. 5 min read"
+                      placeholder="5 min read"
                       value={formData.readTime}
                       onChange={(e) =>
                         setFormData({ ...formData, readTime: e.target.value })
                       }
-                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors"
+                      className="w-full px-3.5 py-2 bg-slate-500/10 border border-border rounded-lg text-xs font-sans text-foreground placeholder-slate-400 focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all"
                     />
                   </div>
 
@@ -988,13 +965,16 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all cursor-pointer select-none disabled:opacity-50"
+                  className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer select-none disabled:opacity-50"
                 >
+                  {submitting ? <LoadingSpinner className="w-3.5 h-3.5" /> : null}
+                  <span>
                   {submitting
                     ? "Saving..."
                     : editingPostId
                       ? "Save Changes"
                       : "Publish Article"}
+                  </span>
                 </button>
               </div>
 

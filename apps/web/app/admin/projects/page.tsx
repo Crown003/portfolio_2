@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiLink, FiGithub } from "react-icons/fi";
+import React, { useState, useEffect, useRef } from "react";
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiLink, FiGithub, FiChevronDown, FiSearch } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { LoadingSpinner } from "../../../components/loading-spinner";
+import { useToast } from "../../../components/toast-provider";
+import { Skeleton } from "../../../components/skeleton";
 
 type Project = {
   id: string;
@@ -28,15 +31,49 @@ const initialFormState = {
   blogPostId: "",
 };
 
+function ProjectCardSkeleton() {
+  return (
+    <div className="p-5 border border-border bg-card/45 backdrop-blur-sm rounded-2xl flex flex-col gap-3 relative shadow-sm overflow-hidden">
+      <Skeleton className="w-1/2 h-6" />
+      <div className="flex flex-col gap-1.5 mt-1">
+        <Skeleton className="w-full h-3" />
+        <Skeleton className="w-4/5 h-3" />
+      </div>
+      <div className="flex gap-3 mt-2">
+        <Skeleton className="w-12 h-3" />
+        <Skeleton className="w-16 h-3" />
+      </div>
+      <div className="flex justify-end gap-2 mt-auto pt-4 border-t border-border/40">
+        <Skeleton className="w-6 h-6 rounded-md" />
+        <Skeleton className="w-6 h-6 rounded-md" />
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectsManager() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<{ id: string; title: string }[]>([]);
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState(initialFormState);
   const [submitting, setSubmitting] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
+  const [comboboxSearch, setComboboxSearch] = useState("");
+  const [isComboboxOpen, setIsComboboxOpen] = useState(false);
+  const comboboxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (comboboxRef.current && !comboboxRef.current.contains(e.target as Node)) {
+        setIsComboboxOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -95,9 +132,13 @@ export default function ProjectsManager() {
       if (res.ok) {
         await fetchData();
         setIsDrawerOpen(false);
+        showToast("success", "Project saved successfully!");
+      } else {
+        showToast("error", "Failed to save project.");
       }
     } catch (err) {
       console.error(err);
+      showToast("error", "An error occurred while saving.");
     } finally {
       setSubmitting(false);
     }
@@ -106,10 +147,16 @@ export default function ProjectsManager() {
   const handleDelete = async () => {
     if (!projectToDelete) return;
     try {
-      await fetch(`/api/projects/${projectToDelete}`, { method: "DELETE" });
-      await fetchData();
+      const res = await fetch(`/api/projects/${projectToDelete}`, { method: "DELETE" });
+      if (res.ok) {
+        await fetchData();
+        showToast("success", "Project deleted successfully!");
+      } else {
+        showToast("error", "Failed to delete project.");
+      }
     } catch (err) {
       console.error(err);
+      showToast("error", "An error occurred while deleting.");
     } finally {
       setProjectToDelete(null);
     }
@@ -128,7 +175,12 @@ export default function ProjectsManager() {
       </div>
 
       {loading ? (
-        <div className="text-slate-500 text-sm">Loading projects...</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ProjectCardSkeleton />
+          <ProjectCardSkeleton />
+          <ProjectCardSkeleton />
+          <ProjectCardSkeleton />
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {projects.map(proj => (
@@ -195,53 +247,99 @@ export default function ProjectsManager() {
               <form onSubmit={handleSubmit} className="flex flex-col gap-5 min-h-full">
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Title *</label>
-                <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50" />
+                <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
               </div>
               
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Description *</label>
-                <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 resize-none" rows={3} />
+                <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all resize-none" rows={3} />
               </div>
               
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Image URL</label>
-                <input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50" />
+                <input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Live URL</label>
-                  <input value={formData.liveUrl} onChange={e => setFormData({...formData, liveUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50" />
+                  <input value={formData.liveUrl} onChange={e => setFormData({...formData, liveUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
                 </div>
                 <div>
                   <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">GitHub URL</label>
-                  <input value={formData.githubUrl} onChange={e => setFormData({...formData, githubUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50" />
+                  <input value={formData.githubUrl} onChange={e => setFormData({...formData, githubUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
                 </div>
               </div>
               
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Tags (comma separated)</label>
-                <input value={formData.tags} onChange={e => setFormData({...formData, tags: e.target.value})} placeholder="React, Next.js, Tailwind" className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50" />
+                <input value={formData.tags} onChange={e => setFormData({...formData, tags: e.target.value})} placeholder="React, Next.js, Tailwind" className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
               </div>
               
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Linked Architecture Blog</label>
-                <select value={formData.blogPostId} onChange={e => setFormData({...formData, blogPostId: e.target.value})} className="w-full px-3 py-2 bg-slate-500/5 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 cursor-pointer">
-                  <option value="">None</option>
-                  {blogs.map(b => (
-                    <option key={b.id} value={b.id}>{b.title}</option>
-                  ))}
-                </select>
+                <div className="relative" ref={comboboxRef}>
+                  <div 
+                    className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all cursor-pointer flex items-center justify-between"
+                    onClick={() => setIsComboboxOpen(!isComboboxOpen)}
+                  >
+                    <span className={!formData.blogPostId ? "text-slate-500" : ""}>
+                      {formData.blogPostId ? blogs.find(b => b.id === formData.blogPostId)?.title || "Selected Blog" : "Select an article..."}
+                    </span>
+                    <FiChevronDown className="text-slate-400" />
+                  </div>
+                  
+                  <AnimatePresence>
+                    {isComboboxOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
+                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-xl overflow-hidden flex flex-col max-h-60"
+                      >
+                        <div className="p-2 border-b border-border/50 flex items-center gap-2 bg-slate-500/5 shrink-0">
+                          <FiSearch className="text-slate-400 w-4 h-4" />
+                          <input 
+                            autoFocus
+                            placeholder="Search articles..."
+                            className="bg-transparent border-none outline-hidden text-sm w-full text-foreground"
+                            value={comboboxSearch}
+                            onChange={(e) => setComboboxSearch(e.target.value)}
+                          />
+                        </div>
+                        <div className="overflow-y-auto flex-1 p-1">
+                          <div 
+                            className={`px-3 py-2 text-sm rounded-md cursor-pointer transition-colors ${!formData.blogPostId ? 'bg-sky-500/10 text-sky-500 dark:text-sky-400 font-medium' : 'hover:bg-slate-500/10 text-foreground'}`}
+                            onClick={() => { setFormData({...formData, blogPostId: ""}); setIsComboboxOpen(false); setComboboxSearch(""); }}
+                          >
+                            None
+                          </div>
+                          {blogs.filter(b => b.title.toLowerCase().includes(comboboxSearch.toLowerCase())).map(b => (
+                            <div 
+                              key={b.id} 
+                              className={`px-3 py-2 text-sm rounded-md cursor-pointer transition-colors ${formData.blogPostId === b.id ? 'bg-sky-500/10 text-sky-500 dark:text-sky-400 font-medium' : 'hover:bg-slate-500/10 text-foreground'}`}
+                              onClick={() => { setFormData({...formData, blogPostId: b.id}); setIsComboboxOpen(false); setComboboxSearch(""); }}
+                            >
+                              {b.title}
+                            </div>
+                          ))}
+                          {blogs.filter(b => b.title.toLowerCase().includes(comboboxSearch.toLowerCase())).length === 0 && (
+                            <div className="px-3 py-4 text-xs text-center text-slate-500">No articles found</div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                 <p className="text-[10px] text-slate-500 mt-1">If linked, a button to read the case study will appear on the project card.</p>
               </div>
               
-              <div className="flex items-center gap-3 p-3 mt-2 bg-slate-500/5 border border-border rounded-lg">
+              <div className="flex items-center gap-3 p-3 mt-2 bg-slate-500/10 border border-border rounded-lg">
                 <input type="checkbox" checked={formData.showOnHomepage} onChange={e => setFormData({...formData, showOnHomepage: e.target.checked})} id="showHome" className="w-4 h-4 rounded border-border" />
                 <label htmlFor="showHome" className="text-sm font-medium text-foreground cursor-pointer select-none">Feature on Homepage</label>
               </div>
               
-              <button disabled={submitting} type="submit" className="w-full mt-auto bg-foreground text-background font-bold py-3 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors">
-                {submitting ? "Saving..." : "Save Project"}
+              <button disabled={submitting} type="submit" className="w-full mt-auto bg-foreground text-background font-bold py-3 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center justify-center gap-2">
+                {submitting ? <LoadingSpinner className="w-5 h-5" /> : null}
+                <span>{submitting ? "Saving Project..." : "Save Project"}</span>
               </button>
               </form>
             </div>
