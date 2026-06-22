@@ -1,6 +1,7 @@
 import React from "react";
 import Dashboard from "../components/dashboard";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight, FiBookOpen } from "react-icons/fi";
 import Testimonials from "../components/testimonials";
@@ -124,8 +125,10 @@ export default async function Home() {
                 <div
                   className="w-full h-full relative flex flex-col rounded-2xl overflow-hidden min-h-[310px] bg-slate-50 dark:bg-slate-900 shadow-sm shadow-slate-100 dark:shadow-none ring-1 ring-slate-200/50 dark:ring-slate-800/50 hover:shadow-xl hover:shadow-emerald-500/5 dark:hover:shadow-emerald-500/5 hover:ring-emerald-500/40 dark:hover:ring-emerald-500/40 transition-all duration-300"
                 >
-                  {/* Invisible Link to avoid nested <a> tags */}
-                  <Link href="/projects/pos-system" className="absolute inset-0 z-[3]" />
+                  {/* Invisible clickable layer to avoid nested <a> tags */}
+                  <form action={async () => { "use server"; redirect("/projects/pos-system"); }} className="absolute inset-0 z-[3]">
+                    <button type="submit" className="w-full h-full opacity-0 cursor-pointer" aria-label="View POS System" />
+                  </form>
                   {/* 1. Full-bleed background product showcase */}
                   <img
                     src="/pos-system.jpg"
@@ -217,8 +220,10 @@ export default async function Home() {
                 <div
                   className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-amber-500/5 dark:hover:shadow-amber-500/5 hover:ring-1 hover:ring-amber-500/30 transition-all duration-300"
                 >
-                  {/* Invisible Link to avoid nested <a> tags */}
-                  <a href="https://www.kdhometutorial.in/" target="_blank" rel="noreferrer" className="absolute inset-0 z-[3]" />
+                  {/* Invisible clickable layer to avoid nested <a> tags */}
+                  <form action={async () => { "use server"; redirect("https://www.kdhometutorial.in/"); }} className="absolute inset-0 z-[3]">
+                    <button type="submit" className="w-full h-full opacity-0 cursor-pointer" aria-label="View KD Home Tutorial" />
+                  </form>
                   {/* Browser Mockup Structure */}
                   <div className="w-full h-full flex flex-col overflow-hidden">
                     {/* macOS Window header bar */}

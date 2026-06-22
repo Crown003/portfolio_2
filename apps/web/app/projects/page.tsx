@@ -3,7 +3,7 @@ import { db } from "@repo/database";
 import Link from "next/link";
 import { FiGithub, FiExternalLink, FiBookOpen } from "react-icons/fi";
 
-// Note: Ensure this is a server component
+export const dynamic = "force-dynamic";
 export default async function ProjectsPage() {
   const projects = await db.project.findMany({
     orderBy: { createdAt: "desc" }
@@ -25,7 +25,7 @@ export default async function ProjectsPage() {
           <div key={project.id} className="group relative flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md border border-border shadow-sm hover:shadow-xl hover:border-sky-500/30 transition-all duration-300">
             {project.imageUrl && (
               <div className="relative w-full aspect-video overflow-hidden border-b border-border">
-                <img src={project.imageUrl} alt={project.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                <img src={project.imageUrl} alt={project.title} className="object-cover w-full h-full transition-transform duration-500" />
               </div>
             )}
             
@@ -35,10 +35,9 @@ export default async function ProjectsPage() {
               
               {project.tags && project.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tags.slice(0, 3).map((tag: any) => (
+                  {project.tags.map((tag: any) => (
                     <span key={tag} className="px-2 py-1 bg-slate-500/10 text-slate-600 dark:text-slate-400 text-[10px] font-mono rounded-md font-semibold">{tag}</span>
                   ))}
-                  {project.tags.length > 3 && <span className="px-2 py-1 text-slate-400 text-[10px] font-mono">+{project.tags.length - 3}</span>}
                 </div>
               )}
               

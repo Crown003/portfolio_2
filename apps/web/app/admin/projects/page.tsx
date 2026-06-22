@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiLink, FiGithub, FiChevronDown, FiSearch } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiLink, FiGithub, FiChevronDown, FiSearch, FiUploadCloud, FiLoader } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { LoadingSpinner } from "../../../components/loading-spinner";
 import { useToast } from "../../../components/toast-provider";
 import { Skeleton } from "../../../components/skeleton";
+import { getSupabaseClient } from "../../../lib/supabase";
 
 type Project = {
   id: string;
@@ -58,6 +59,7 @@ export default function ProjectsManager() {
   const [loading, setLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [formData, setFormData] = useState(initialFormState);
   const [submitting, setSubmitting] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
@@ -162,6 +164,41 @@ export default function ProjectsManager() {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    try {
+      const supabase = getSupabaseClient();
+      const fileExt = file.name.split(".").pop();
+      const fileName = `project-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      
+      const { error } = await supabase.storage
+        .from("project-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) throw error;
+
+      const { data: urlData } = supabase.storage
+        .from("project-images")
+        .getPublicUrl(fileName);
+
+      if (!urlData || !urlData.publicUrl) throw new Error("Failed to get public URL");
+
+      setFormData(prev => ({ ...prev, imageUrl: urlData.publicUrl }));
+      showToast("success", "Image uploaded successfully!");
+    } catch (err: any) {
+      console.error("Image upload failed:", err);
+      showToast("error", err.message || "Failed to upload image. Ensure 'project-images' bucket is public.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 font-sans">
       <div className="flex items-center justify-between border-b border-border pb-4">
@@ -257,7 +294,21 @@ export default function ProjectsManager() {
               
               <div>
                 <label className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-1 block">Image URL</label>
-                <input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
+                <div className="flex gap-2">
+                  <input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="w-full px-3 py-2 bg-slate-500/10 border border-border rounded-lg text-sm text-foreground focus:outline-hidden focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 transition-all" />
+                  <div className="relative shrink-0">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={handleImageUpload} 
+                      disabled={isUploadingImage}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed" 
+                    />
+                    <button type="button" disabled={isUploadingImage} className="flex items-center justify-center h-full px-4 bg-sky-500 hover:bg-sky-600 text-white rounded-lg transition-colors disabled:opacity-50 border border-sky-600">
+                      {isUploadingImage ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiUploadCloud className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
