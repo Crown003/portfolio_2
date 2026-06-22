@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -19,10 +19,13 @@ import {
   FiEdit3,
   FiCalendar,
   FiClock,
+  FiImage,
+  FiLoader,
 } from "react-icons/fi";
 import Link from "next/link";
 import { BlogPost } from "../../components/blog-card";
 import { marked } from "marked";
+import { getSupabaseClient } from "../../lib/supabase";
 
 type BlogFormState = Omit<BlogPost, "id" | "publishedAt" | "_count"> & {
   id?: string;
@@ -64,6 +67,11 @@ export default function AdminDashboard() {
 
   // Editor tabs: "write" | "preview"
   const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
+
+  // Image upload states
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Floating Toasts
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -159,15 +167,108 @@ export default function AdminDashboard() {
     }
   };
 
-  // Handle Thumbnail File Upload
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle Thumbnail File Upload to Supabase Storage
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, thumbnailUrl: reader.result as string });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    setUploadingThumbnail(true);
+    try {
+      const supabase = getSupabaseClient();
+      const fileExt = file.name.split(".").pop();
+      const fileName = `thumbnail-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      
+      const { error } = await supabase.storage
+        .from("blog-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("blog-images")
+        .getPublicUrl(fileName);
+
+      setFormData(prev => ({
+        ...prev,
+        thumbnailUrl: urlData.publicUrl
+      }));
+      showToast("success", "Thumbnail uploaded to Supabase!");
+    } catch (err: any) {
+      console.error("Thumbnail upload failed:", err);
+      showToast("error", err.message || "Failed to upload thumbnail. Check if 'blog-images' bucket is created and public in Supabase.");
+    } finally {
+      setUploadingThumbnail(false);
+    }
+  };
+
+  // Handle Inline Image Upload for Flowcharts/Diagrams to Supabase Storage
+  const handleInlineImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    try {
+      const supabase = getSupabaseClient();
+      const fileExt = file.name.split(".").pop();
+      const fileName = `blog-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      
+      const { error } = await supabase.storage
+        .from("blog-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("blog-images")
+        .getPublicUrl(fileName);
+
+      if (!urlData || !urlData.publicUrl) {
+        throw new Error("Failed to get public URL");
+      }
+
+      const markdownImage = `\n![${file.name}](${urlData.publicUrl})\n`;
+      
+      const textarea = textareaRef.current;
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = formData.content || "";
+        const before = text.substring(0, start);
+        const after = text.substring(end, text.length);
+        
+        setFormData(prev => ({
+          ...prev,
+          content: before + markdownImage + after
+        }));
+        
+        // Return focus and place cursor right after the inserted image
+        setTimeout(() => {
+          textarea.focus();
+          textarea.setSelectionRange(start + markdownImage.length, start + markdownImage.length);
+        }, 50);
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          content: (prev.content || "") + markdownImage
+        }));
+      }
+      showToast("success", "Image uploaded and inserted at cursor!");
+    } catch (err: any) {
+      console.error("Image upload failed:", err);
+      showToast("error", err.message || "Failed to upload image. Check if 'blog-images' bucket is created and public in Supabase.");
+    } finally {
+      setIsUploadingImage(false);
+      e.target.value = "";
     }
   };
 
@@ -608,13 +709,14 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                      Thumbnail Image
+                      Thumbnail Image {uploadingThumbnail && <span className="text-[oklch(62.3%_0.214_259.815)] animate-pulse font-bold">(Uploading...)</span>}
                     </label>
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={uploadingThumbnail}
                       onChange={handleFileChange}
-                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-slate-900 file:text-white dark:file:bg-white dark:file:text-black hover:file:opacity-90 file:cursor-pointer"
+                      className="w-full px-3.5 py-2 bg-card/60 border border-border rounded-lg text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600 transition-colors file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-slate-900 file:text-white dark:file:bg-white dark:file:text-black hover:file:opacity-90 file:cursor-pointer disabled:opacity-50"
                     />
                     {formData.thumbnailUrl && (
                       <div className="mt-3 relative w-32 aspect-video rounded-md overflow-hidden border border-border">
@@ -683,10 +785,30 @@ export default function AdminDashboard() {
 
                 {editorTab === "write" ? (
                   <div>
-                    <label className="block text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
-                      Markdown Source
-                    </label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Markdown Source
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <label className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-md text-[10px] hover:opacity-90 active:scale-95 transition-all cursor-pointer select-none">
+                          {isUploadingImage ? (
+                            <FiLoader className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <FiImage className="w-3.5 h-3.5" />
+                          )}
+                          <span>{isUploadingImage ? "Uploading..." : "Insert Image/Diagram"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleInlineImageUpload}
+                            disabled={isUploadingImage}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
                     <textarea
+                      ref={textareaRef}
                       required
                       rows={12}
                       placeholder="# Heading 1&#10;Write your body paragraphs using **bold** or *italic* markdown tags. Use code snippets like:&#10;```js&#10;console.log('API edges!');&#10;```"

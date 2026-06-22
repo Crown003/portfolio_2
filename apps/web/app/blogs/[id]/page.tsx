@@ -3,6 +3,7 @@ import { db } from "@repo/database";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { FiCalendar, FiClock, FiChevronLeft } from "react-icons/fi";
+import { marked } from "marked";
 
 interface BlogPageProps {
   params: Promise<{
@@ -93,9 +94,10 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
         )}
 
         {/* Content Body */}
-        <div className="text-slate-700 dark:text-slate-300 leading-relaxed space-y-6 text-sm sm:text-base font-sans mt-4 whitespace-pre-wrap">
-          {post.content}
-        </div>
+        <div 
+          className="text-slate-700 dark:text-slate-300 leading-relaxed font-sans mt-4 prose dark:prose-invert max-w-none prose-headings:font-display prose-headings:tracking-tight prose-img:rounded-2xl prose-img:border prose-img:border-border prose-a:text-sky-500 hover:prose-a:underline"
+          dangerouslySetInnerHTML={{ __html: marked.parse(post.content || "") as string }}
+        />
 
         {/* Project Details (if applicable) */}
         {(post.projectSummary || post.projectApproach) && (

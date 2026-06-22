@@ -1,5 +1,6 @@
 @import "@repo/ui/globals";
 @source "../../packages/ui/src";
+@plugin "@tailwindcss/typography";
 
 @keyframes glow-y {
   0% {

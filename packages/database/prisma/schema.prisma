@@ -1,0 +1,44 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id              String    @id @default(cuid())
+  title           String
+  excerpt         String
+  content         String
+  category        String
+  publishedAt     DateTime  @default(now())
+  readTime        String
+  tags            String[]
+  featured        Boolean   @default(false)
+  thumbnailUrl    String?
+  projectSummary  String?
+  projectApproach String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  comments        Comment[]
+  likes           Like[]
+}
+
+model Comment {
+  id         String   @id @default(cuid())
+  postId     String
+  authorName String
+  content    String
+  createdAt  DateTime @default(now())
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  ipAddress String?
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
