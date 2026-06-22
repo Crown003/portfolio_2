@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { FiCalendar, FiClock, FiChevronLeft } from "react-icons/fi";
 import { marked } from "marked";
+import { PostInteractions } from "../../../components/post-interactions";
+import { auth } from "@clerk/nextjs/server";
 
 interface BlogPageProps {
   params: Promise<{
@@ -32,6 +34,14 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
   try {
     post = await db.post.findUnique({
       where: { id },
+      include: {
+        comments: {
+          orderBy: { createdAt: "desc" },
+        },
+        _count: {
+          select: { likes: true },
+        },
+      },
     });
   } catch (error) {
     console.error("Failed to fetch blog post:", error);
@@ -40,6 +50,15 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
 
   if (!post) {
     return notFound();
+  }
+
+  const { userId } = await auth();
+  let initialHasLiked = false;
+  if (userId) {
+    const like = await db.like.findFirst({
+      where: { postId: id, ipAddress: userId },
+    });
+    initialHasLiked = !!like;
   }
 
   return (
@@ -139,6 +158,14 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
             ))}
           </div>
         )}
+
+        {/* Post Interactions (Likes & Comments) */}
+        <PostInteractions
+          postId={id}
+          initialLikesCount={post._count.likes}
+          initialHasLiked={initialHasLiked}
+          initialComments={post.comments}
+        />
       </article>
     </div>
   );

@@ -4,8 +4,14 @@ import Link from "next/link";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight } from "react-icons/fi";
 import Testimonials from "../components/testimonials";
+import { db } from "@repo/database";
 
-export default function Home() {
+export default async function Home() {
+  const featuredProjects = await db.project.findMany({
+    where: { showOnHomepage: true },
+    orderBy: { createdAt: "desc" }
+  });
+
   return (
     <div className="relative flex flex-col pt-6 sm:pt-10 pb-0 font-sans antialiased text-foreground">
       <HeroBackground />
@@ -232,161 +238,6 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* Cell 3: Testimonial Card */}
-              <div className="p-6 md:p-8 border-b md:border-r md:border-b-0 lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
-                <Link
-                  href="/about"
-                  className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md p-6 min-h-[250px] border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-sky-500/5 dark:hover:shadow-sky-500/5 hover:ring-1 hover:ring-sky-500/30 transition-all duration-300"
-                >
-                  <div className="flex flex-col gap-4 h-full relative z-10 justify-between">
-                    {/* Quote Icon */}
-                    <span className="text-5xl font-serif text-slate-300 dark:text-slate-800 leading-none select-none">
-                      “
-                    </span>
-
-                    {/* Quote Text */}
-                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed font-normal font-sans">
-                      A robust solution that fits perfectly into our workflow.
-                      It has enhanced our team's capabilities and allowed us to
-                      tackle more complex projects.
-                    </p>
-
-                    {/* Profile Meta */}
-                    <div className="flex items-center gap-2.5 mt-2">
-                      <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-black text-slate-600 dark:text-slate-400 select-none">
-                        FM
-                      </div>
-                      <div className="flex flex-col leading-tight">
-                        <span className="text-xs font-bold text-foreground">
-                          Frank Moore
-                        </span>
-                        <span className="text-[9px] text-slate-400">
-                          VP Engineering, Saasternity
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-
-              {/* Cell 4: All over the world */}
-              <div className="p-6 md:p-8 border-b md:border-none lg:border-r lg:border-b-0 border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
-                <Link
-                  href="/about"
-                  className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md p-6 min-h-[250px] border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-sky-500/5 dark:hover:shadow-sky-500/5 hover:ring-1 hover:ring-sky-500/30 transition-all duration-300"
-                >
-                  <div className="flex flex-col gap-2 relative z-10">
-                    <h4 className="text-base font-bold text-foreground font-display">
-                      All over the world
-                    </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-sans font-normal max-w-[200px]">
-                      Meet our distributed team of experts working across 6
-                      continents.
-                    </p>
-                  </div>
-
-                  {/* Simplified global distribution map SVG */}
-                  <div className="absolute -bottom-6 -right-6 w-36 h-36 pointer-events-none">
-                    <svg
-                      className="w-full h-full text-slate-300 dark:text-slate-700"
-                      viewBox="0 0 100 100"
-                      fill="none"
-                    >
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="42"
-                        stroke="currentColor"
-                        strokeWidth="0.5"
-                        strokeDasharray="2 2"
-                        className="text-slate-200 dark:text-slate-800/40"
-                      />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="28"
-                        stroke="currentColor"
-                        strokeWidth="0.5"
-                        className="text-slate-200 dark:text-slate-800/30"
-                      />
-                      <path
-                        d="M15 50 C 30 30, 70 30, 85 50 C 70 70, 30 70, 15 50 Z"
-                        stroke="currentColor"
-                        strokeWidth="0.5"
-                        strokeOpacity="0.15"
-                      />
-                      <path
-                        d="M50 15 C 30 30, 30 70, 50 85 C 70 70, 70 30, 50 15 Z"
-                        stroke="currentColor"
-                        strokeWidth="0.5"
-                        strokeOpacity="0.15"
-                      />
-                      {/* Glowing location indicators */}
-                      <circle
-                        cx="45"
-                        cy="35"
-                        r="2.5"
-                        className="fill-rose-500 animate-pulse"
-                      />
-                      <circle
-                        cx="65"
-                        cy="48"
-                        r="3"
-                        className="fill-emerald-500 animate-pulse"
-                      />
-                      <circle cx="30" cy="58" r="2" className="fill-sky-500" />
-                      <circle
-                        cx="55"
-                        cy="65"
-                        r="2.5"
-                        className="fill-amber-500"
-                      />
-                    </svg>
-                  </div>
-                </Link>
-              </div>
-
-              {/* Cell 5: Saasternity */}
-              <div className="p-6 md:p-8 border-none flex flex-col">
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 p-6 min-h-[250px] border border-white/5 shadow-md shadow-black/20 hover:shadow-xl hover:shadow-purple-500/10 hover:ring-1 hover:ring-purple-500/40 transition-all duration-300"
-                >
-                  {/* Glowing star backgrounds */}
-                  <div className="absolute top-12 left-16 w-1 h-1 bg-white rounded-full opacity-60 animate-ping" />
-                  <div className="absolute top-24 right-16 w-0.5 h-0.5 bg-white rounded-full opacity-80" />
-                  <div className="absolute bottom-16 left-28 w-1 h-1 bg-sky-300 rounded-full opacity-40 animate-pulse" />
-
-                  <div className="flex flex-col gap-2 relative z-10 h-full justify-between">
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-5 h-5 text-purple-400"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <polygon points="12 2 2 22 22 22" />
-                        </svg>
-                        <span className="text-base font-bold text-white font-display tracking-tight">
-                          Saasternity
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-300 leading-relaxed font-sans font-normal mt-1">
-                        Interactive developer tools and scalable SaaS platforms
-                        built for the next generation of web engineering.
-                      </p>
-                    </div>
-
-                    <span className="text-[10px] font-mono text-purple-400 font-bold uppercase tracking-wider mt-auto select-none">
-                      Open Source Project →
-                    </span>
-                  </div>
-                </a>
-              </div>
             </div>
           </div>
         </div>

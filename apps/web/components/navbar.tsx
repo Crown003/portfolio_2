@@ -10,7 +10,9 @@ import { UserButton, useUser } from "@clerk/nextjs";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Blogs", href: "/blogs" },
+  { label: "Projects", href: "/projects" },
   { label: "Services", href: "/Services" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const Path = (props: SVGMotionProps<SVGPathElement>) => (

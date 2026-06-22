@@ -24,6 +24,7 @@ model Post {
   updatedAt       DateTime  @updatedAt
   comments        Comment[]
   likes           Like[]
+  projects        Project[]
 }
 
 model Comment {
@@ -41,4 +42,29 @@ model Like {
   ipAddress String?
   createdAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  content        String?
+  imageUrl       String?
+  liveUrl        String?
+  githubUrl      String?
+  tags           String[]
+  showOnHomepage Boolean  @default(false)
+  blogPostId     String?
+  blogPost       Post?    @relation(fields: [blogPostId], references: [id], onDelete: SetNull)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  content   String
+  status    String   @default("UNREAD")
+  createdAt DateTime @default(now())
 }

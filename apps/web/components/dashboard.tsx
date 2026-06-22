@@ -245,6 +245,20 @@ export default function Dashboard() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const delayRef = useRef(AUTO_DELAY);
 
+  // Contact Form State
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [submittingContact, setSubmittingContact] = useState(false);
+
+  const contactFormRef = useRef(contactForm);
+  useEffect(() => {
+    contactFormRef.current = contactForm;
+  }, [contactForm]);
+
   const clearTimers = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
   };
@@ -252,13 +266,23 @@ export default function Dashboard() {
   const startCycle = (currentDelay: number) => {
     clearTimers();
     timerRef.current = setTimeout(() => {
+      let isDirty = false;
       setActiveTab((prev) => {
+        isDirty = prev === "contact" && (contactFormRef.current.name !== "" || contactFormRef.current.email !== "" || contactFormRef.current.message !== "");
+        if (isDirty) {
+          return prev; // Freeze transition
+        }
         const idx = TABS.indexOf(prev);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return TABS[(idx + 1) % TABS.length]!;
       });
       delayRef.current = AUTO_DELAY;
       setDelay(AUTO_DELAY);
+      // If it was dirty, the activeTab won't change, so useEffect won't re-trigger. 
+      // We manually start the next cycle to check again.
+      if (isDirty) {
+         startCycle(AUTO_DELAY);
+      }
     }, currentDelay);
   };
 
@@ -277,13 +301,7 @@ export default function Dashboard() {
     }
   };
 
-  // Contact Form State
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [contactSuccess, setContactSuccess] = useState(false);
+
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -322,12 +340,31 @@ export default function Dashboard() {
     return () => el.removeEventListener('wheel', handleWheel);
   }, [activeTab]);
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactForm.email || !contactForm.message) return;
-    setContactSuccess(true);
-    setContactForm({ name: "", email: "", message: "" });
-    setTimeout(() => setContactSuccess(false), 5000);
+    
+    setSubmittingContact(true);
+    try {
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactForm.name,
+          email: contactForm.email,
+          content: contactForm.message,
+        }),
+      });
+      if (res.ok) {
+        setContactSuccess(true);
+        setContactForm({ name: "", email: "", message: "" });
+        setTimeout(() => setContactSuccess(false), 5000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubmittingContact(false);
+    }
   };
 
   // ── REFACTOR FIX: Isolated About Layout Blueprint to drive height ──
@@ -582,7 +619,7 @@ export default function Dashboard() {
                       setContactForm({ ...contactForm, name: e.target.value })
                     }
                     className="bg-card border border-border rounded-lg px-3 py-2 text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600"
-                    placeholder="Jane Doe"
+                    placeholder="Crown"
                   />
                 </div>
 
@@ -598,7 +635,7 @@ export default function Dashboard() {
                       setContactForm({ ...contactForm, email: e.target.value })
                     }
                     className="bg-card border border-border rounded-lg px-3 py-2 text-xs font-sans text-foreground focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-600"
-                    placeholder="jane@example.com"
+                    placeholder="crown@gmail.com"
                   />
                 </div>
 
@@ -622,11 +659,12 @@ export default function Dashboard() {
                 </div>
 
                 <button
+                  disabled={submittingContact}
                   type="submit"
-                  className="mt-2 py-2 bg-slate-900 text-white dark:bg-white dark:text-black font-semibold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="mt-2 py-2 bg-slate-900 text-white dark:bg-white dark:text-black font-semibold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   <StandardIcons.Send />
-                  <span>Send Message</span>
+                  <span>{submittingContact ? "Sending..." : "Send Message"}</span>
                 </button>
 
                 <AnimatePresence>

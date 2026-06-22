@@ -35,7 +35,6 @@ export default function SignInPage() {
             },
             variables: {
               colorPrimary: isDark ? "#ffffff" : "#000000",
-              colorTextOnPrimaryBackground: isDark ? "#000000" : "#ffffff",
               colorBackground: isDark ? "#0a0a0a" : "#ffffff",
               colorText: isDark ? "#ffffff" : "#000000",
               colorInputBackground: isDark ? "#171717" : "#ffffff",
