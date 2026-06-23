@@ -312,30 +312,23 @@ export default function Dashboard() {
     }
   }, [activeTab]);
 
-  // ── Smart wheel handler: capture scroll only when content overflows ──
-  // Prevents the Lenis ↔ native scroll conflict that causes page shaking.
-  // When content is scrollable and NOT at a boundary, stopPropagation()
-  // keeps the event from reaching Lenis. At boundaries or when there's
-  // no overflow, the event passes through to Lenis for smooth page scroll.
+  // ── Boundary-aware wheel handler ──────────────────────────────────
+  // Only stopPropagation when the inner container can scroll further in
+  // the direction the user is scrolling. At boundaries (top/bottom) the
+  // event passes through to Lenis so the outer page scrolls naturally.
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      const hasOverflow = el.scrollHeight > el.clientHeight + 1;
-      if (!hasOverflow) return; // No overflow → let Lenis scroll the page
+    const hasOverflow = () => el.scrollHeight > el.clientHeight + 1;
+    const isAtTop = () => el.scrollTop <= 0;
+    const isAtBottom = () => el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
 
-      const isAtTop = el.scrollTop <= 0;
-      const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+    const handleWheel = (e: WheelEvent) => {
+      if (!hasOverflow()) return;
       const scrollingDown = e.deltaY > 0;
       const scrollingUp = e.deltaY < 0;
-
-      // At a boundary scrolling outward → let Lenis scroll the page
-      if ((isAtTop && scrollingUp) || (isAtBottom && scrollingDown)) {
-        return;
-      }
-
-      // Content can scroll in this direction → capture it, don't let Lenis see it
+      if ((isAtTop() && scrollingUp) || (isAtBottom() && scrollingDown)) return;
       e.stopPropagation();
     };
 
@@ -798,10 +791,10 @@ export default function Dashboard() {
             {renderAboutLayoutOnly()}
           </div>
 
-          {/* 2. REFACTOR FIX: Absolute mounted viewport container stage for standard flow */}
-          {/* 2. Absolute Mounted Viewport Container Stage */}
-          {/* CHANGE: Changed 'overflow-hidden' to 'overflow-y-auto' and added scrollbar hiding classes */}
-          <div ref={scrollRef} className="absolute inset-0 p-6 sm:p-7 overflow-y-auto overscroll-contain scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
+          {/* Absolute content viewport — lg:overscroll-contain keeps desktop
+              wheel handler working; on mobile, native scroll chaining
+              lets the page scroll once inner content is exhausted. */}
+          <div ref={scrollRef} className="absolute inset-0 p-6 sm:p-7 overflow-y-auto lg:overscroll-contain scrollbar-none no-scrollbar [-ms-overflow-style:none] [scrollbar-width:none]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeTab}
