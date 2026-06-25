@@ -6,6 +6,7 @@ import HeroBackground from "../components/hero-background";
 import { FiArrowRight, FiBookOpen } from "react-icons/fi";
 import Testimonials from "../components/testimonials";
 import Experience from "../components/experience";
+import TechStack from "../components/tech-stack";
 import { getExperiences, seedExperiences } from "./actions/experience";
 import { db } from "@repo/database";
 
@@ -98,7 +99,7 @@ export default async function Home() {
             {/* Reduced gap between header and paragraph from gap-3 to gap-1.5 on mobile */}
             <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
               {/* Increased mobile text size to text-3xl (originally text-xl) and tightened leading to leading-none on mobile */}
-              <h2 className="text-3xl text-balance sm:text-3xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] sm:leading-tight">
+              <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
                 Transforming concepts into{" "}
                 <span className="text-[oklch(62.3%_0.214_259.815)]">
                   functional applications.
@@ -308,6 +309,9 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+      <TechStack />
+
       {/* <Testimonials /> */}
     </div>
   );

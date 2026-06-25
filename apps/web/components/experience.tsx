@@ -46,7 +46,7 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
       <div className="w-full flex flex-col gap-12 relative z-10">
         <div className="w-[95%] max-w-4xl mx-auto flex flex-col gap-8 py-12 sm:py-32 md:py-28">
           <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
-            <h2 className="text-3xl text-balance sm:text-3xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] sm:leading-tight">
+            <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
               Professional{" "}
               <span className="text-[oklch(62.3%_0.214_259.815)]">
                 Experience
