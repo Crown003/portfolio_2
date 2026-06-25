@@ -1,7 +1,7 @@
 import React from "react";
 import { db } from "@repo/database";
 import Link from "next/link";
-import { FiGithub, FiExternalLink, FiBookOpen } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiBookOpen, FiArrowLeft } from "react-icons/fi";
 
 export const dynamic = "force-dynamic";
 export default async function ProjectsPage() {
@@ -12,6 +12,12 @@ export default async function ProjectsPage() {
   return (
     <div className="relative flex flex-col gap-10 pt-10 pb-24 font-sans antialiased text-foreground max-w-5xl mx-auto w-full px-4">
       <div className="flex flex-col gap-4">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground mb-2 transition-colors w-fit"
+        >
+          <FiArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-display">
           All Projects
         </h1>

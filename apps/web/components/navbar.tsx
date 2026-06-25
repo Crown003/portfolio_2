@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence, SVGMotionProps } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence, SVGMotionProps, LayoutGroup } from "framer-motion";
 import { UserButton, useUser } from "@clerk/nextjs";
 
 // Scalable Links Array Structure
@@ -68,6 +68,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const { scrollY } = useScroll();
   const { user, isLoaded, isSignedIn } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
@@ -234,17 +235,29 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Nav Links */}
-            <div className="hidden md:flex items-center gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-xs sm:text-sm font-normal text-muted-foreground hover:text-foreground px-4 py-2 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 transition-all duration-200"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            <LayoutGroup>
+              <div className="hidden md:flex items-center gap-1" onMouseLeave={() => setHoveredPath(null)}>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onMouseEnter={() => setHoveredPath(link.href)}
+                    className="relative text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 transition-colors duration-200"
+                  >
+                    <span className="relative z-10">{link.label}</span>
+                    {hoveredPath === link.href && (
+                      <motion.div
+                        layoutId="navbar-hover"
+                        className="absolute inset-0 bg-slate-100/70 dark:bg-slate-800/60 rounded-xl"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                      />
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </LayoutGroup>
 
             {/* Actions & Hamburger Toggle */}
             <div className="flex items-center gap-2 sm:gap-4">

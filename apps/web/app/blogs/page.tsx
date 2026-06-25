@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiSearch, FiBookOpen } from "react-icons/fi";
+import { FiSearch, FiBookOpen, FiArrowLeft } from "react-icons/fi";
+import Link from "next/link";
 import BlogCard, { BlogPost, BlogCardSkeleton } from "../../components/blog-card";
 
 type CategoryFilter = "All" | "Engineering" | "Design" | "DevOps";
@@ -47,6 +48,13 @@ export default function BlogListing() {
       
       {/* Hero Header Section */}
       <div className="flex flex-col items-start text-left gap-4 max-w-5xl px-1">
+        
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground mb-2 transition-colors"
+        >
+          <FiArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
         
         {/* Decorative Tagline Badge */}
         <div className="rotating-chip-container">

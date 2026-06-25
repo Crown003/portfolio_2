@@ -13,8 +13,8 @@ export const ContactButton = ({ href, children, primary, download }: ContactButt
   return (
     <a
       href={href}
-      target={download ? undefined : "_blank"}
-      rel={download ? undefined : "noreferrer"}
+      target={download || href.startsWith("/") ? undefined : "_blank"}
+      rel={download || href.startsWith("/") ? undefined : "noreferrer"}
       download={download}
       className={`inline-flex items-center gap-1.5 border px-3.5 py-2 rounded-lg font-bold text-[11px] transition-all duration-200 cursor-pointer active:scale-97 select-none ${
         isPrimary

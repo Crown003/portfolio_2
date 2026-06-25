@@ -33,7 +33,7 @@ const footerLinks: FooterColumn[] = [
       { label: "Home", href: "/" },
       { label: "Blogs", href: "/blogs" },
       { label: "Projects", href: "/projects" },
-      { label: "Services", href: "/Services" },
+      { label: "Services", href: "/services" },
     ],
   },
   {
@@ -48,9 +48,8 @@ const footerLinks: FooterColumn[] = [
   {
     heading: "More",
     links: [
-      { label: "About Me", href: "/about" },
+      { label: "About Me", href: "/#dashboard-section" },
       { label: "Resume", href: "/resume" },
-      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
 ];

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiBookOpen, FiBriefcase, FiMessageSquare, FiHome } from "react-icons/fi";
+import { FiBookOpen, FiBriefcase, FiMessageSquare, FiHome, FiSettings } from "react-icons/fi";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,6 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navItems = [
     { name: "Blogs", href: "/admin/blogs", icon: FiBookOpen },
     { name: "Projects", href: "/admin/projects", icon: FiBriefcase },
+    { name: "Experience", href: "/admin/experience", icon: FiBriefcase },
     { name: "Messages", href: "/admin/messages", icon: FiMessageSquare },
   ];
 
@@ -19,12 +20,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-card flex flex-col shrink-0">
         <div className="p-6 border-b border-border">
-          <Link href="/" className="flex items-center gap-2 text-foreground font-display font-bold text-lg">
-            <FiHome className="text-sky-500" />
+          <Link href="/admin/blogs" className="flex items-center gap-2 text-foreground font-display font-bold text-lg">
+            <FiSettings className="text-sky-500" />
             <span>Admin Portal</span>
           </Link>
         </div>
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto no-scrollbar">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -47,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-background/50">
+      <main className="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-background/50 no-scrollbar">
         <div className="p-4 sm:p-8 max-w-7xl mx-auto">
           {children}
         </div>

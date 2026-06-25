@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { techStackCategories } from "./tech-data";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiBriefcase } from "react-icons/fi";
 import { ContactButton } from "@repo/ui/contact-button";
 import { LoadingSpinner } from "./loading-spinner";
 import { useToast } from "./toast-provider";
@@ -225,11 +225,11 @@ const contactActions: ContactAction[] = [
     download: false,
   },
   {
-    label: "Download Resume",
-    href: "/resume.pdf",
-    icon: FiDownload,
-    primary: true,
-    download: true,
+    label: "View Resume",
+    href: "/resume",
+    icon: FiBriefcase,
+    primary: false,
+    download: false,
   },
 ];
 

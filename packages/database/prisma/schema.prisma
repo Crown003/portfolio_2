@@ -68,3 +68,15 @@ model Message {
   status    String   @default("UNREAD")
   createdAt DateTime @default(now())
 }
+
+model Experience {
+  id            String   @id @default(cuid())
+  company       String
+  totalDuration String
+  location      String
+  logoInitial   String
+  roles         Json
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
