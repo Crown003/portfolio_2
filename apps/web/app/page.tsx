@@ -90,8 +90,7 @@ export default async function Home() {
         <div className="absolute -inset-10 rounded-[3rem]  bg-gradient-to-tr from-slate-400/15 via-slate-300/10 to-slate-400/15 dark:from-slate-800/25 dark:via-slate-900/25 dark:to-slate-800/25 blur-3xl opacity-60 dark:opacity-40 group-hover/dashboard:opacity-80 transition-opacity duration-700 pointer-events-none -z-10" />
         <Dashboard />
       </div>
-
-      <Experience experiences={experiencesData} />
+      <Experience experiences={experiencesData as any} />
 
       {/* Gridline Project Showcase Section */}
       <div className="relative left-1/2 -translate-x-1/2 w-screen bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
