@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { techStackCategories } from "./tech-data";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FiDownload, FiBriefcase } from "react-icons/fi";
@@ -390,11 +393,15 @@ export default function Dashboard() {
         {/* Hero Profile Block */}
         <div className="flex flex-col gap-4 max-w-2xl">
           <div className="flex items-center justify-start gap-4 sm:gap-6">
-            <img
-              src="/profile.jpg"
-              alt="Harshit Tiwari Portrait"
-              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border border-border shadow-xs"
-            />
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 shrink-0">
+              <Image
+                src="/profile.jpg"
+                alt="Harshit Tiwari Portrait"
+                fill
+                className="object-cover rounded-xl border border-border shadow-xs"
+                sizes="(max-width: 640px) 64px, 80px"
+              />
+            </div>
             <div className="flex flex-col gap-1.5">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground font-display tracking-tight leading-none">
                 Harshit Tiwari
@@ -826,6 +833,7 @@ export default function Dashboard() {
                   label: "Professional",
                   icon: Icons.Briefcase,
                 },
+
                 { id: "services", label: "Services", icon: Icons.Sparkles },
                 { id: "contact", label: "Contact", icon: Icons.Mail },
               ].map((btn) => {

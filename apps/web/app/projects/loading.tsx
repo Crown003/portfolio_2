@@ -31,7 +31,7 @@ export default function Loading() {
   return (
     <div className="relative flex flex-col gap-10 pt-10 pb-24 font-sans antialiased text-foreground max-w-5xl mx-auto w-full px-4">
       <div className="flex flex-col gap-4">
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-display">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground font-display">
           All Projects
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl">

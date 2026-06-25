@@ -1,6 +1,7 @@
 import React from "react";
 import { db } from "@repo/database";
 import Link from "next/link";
+import Image from "next/image";
 import { FiGithub, FiExternalLink, FiBookOpen, FiArrowLeft } from "react-icons/fi";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +19,7 @@ export default async function ProjectsPage() {
         >
           <FiArrowLeft className="w-4 h-4" /> Back to Home
         </Link>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground font-display">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground font-display">
           All Projects
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl">
@@ -31,7 +32,7 @@ export default async function ProjectsPage() {
           <div key={project.id} className="group relative flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md border border-border shadow-sm hover:shadow-xl hover:border-sky-500/30 transition-all duration-300">
             {project.imageUrl && (
               <div className="relative w-full aspect-video overflow-hidden border-b border-border">
-                <img src={project.imageUrl} alt={project.title} className="object-cover w-full h-full transition-transform duration-500" />
+                <Image src={project.imageUrl} alt={project.title} fill className="object-cover transition-transform duration-500" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               </div>
             )}
             

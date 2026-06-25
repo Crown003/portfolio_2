@@ -24,16 +24,17 @@ export default function TechStack() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           {techStackCategories.map((category, idx) => (
             <div key={idx} className="flex flex-col gap-5">
-              <h3 className="text-sm font-bold tracking-widest text-slate-500 uppercase font-display border-b border-slate-800 pb-3">
+              <h3 className="text-sm font-bold tracking-widest text-slate-500 uppercase font-display border-b border-slate-200 dark:border-slate-800 pb-3">
                 {category.title}
               </h3>
               
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3" role="list">
                 {category.skills.map((skill, sIdx) => {
                   const Icon = skill.icon;
                   return (
                     <div
                       key={sIdx}
+                      role="listitem"
                       className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 group cursor-default"
                     >
                       <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors duration-300" />

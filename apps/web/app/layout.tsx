@@ -18,8 +18,44 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Harshit Tiwari | Portfolio",
-  description: "Personal Portfolio & Blog",
+  title: "Harshit Tiwari | Full-Stack Engineer",
+  description:
+    "Full-Stack Engineer crafting reliable applications, scalable infrastructure, and polished user experiences. Explore my projects, blog, and tech stack.",
+  keywords: [
+    "Harshit Tiwari",
+    "Full-Stack Engineer",
+    "Portfolio",
+    "Web Developer",
+    "Next.js",
+    "React",
+    "Flutter",
+    "Node.js",
+    "TypeScript",
+  ],
+  authors: [{ name: "Harshit Tiwari" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Harshit Tiwari Portfolio",
+    title: "Harshit Tiwari | Full-Stack Engineer",
+    description:
+      "Building robust systems. Designing clean interfaces. Explore my work, blog, and tech stack.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Harshit Tiwari — Full-Stack Engineer Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Harshit Tiwari | Full-Stack Engineer",
+    description: "Building robust systems. Designing clean interfaces.",
+    creator: "@Harshit003_",
+    images: ["/og-image.png"],
+  },
 };
 
 export const viewport = {

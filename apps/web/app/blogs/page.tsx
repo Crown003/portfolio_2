@@ -65,7 +65,7 @@ export default function BlogListing() {
         </div>
 
         {/* Title */}
-        <h1 className="text-xl sm:text-6xl font-extrabold tracking-[-0.025em] text-foreground leading-[1.08] font-display sm:whitespace-nowrap">
+        <h1 className="text-xl sm:text-3xl font-semibold tracking-tight text-foreground leading-[1.08] font-display sm:whitespace-nowrap">
           Writings on <span className="text-[oklch(62.3%_0.214_259.815)]">systems</span>, web & design.
         </h1>
 

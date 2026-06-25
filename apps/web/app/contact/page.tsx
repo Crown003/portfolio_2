@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiSend, FiCheckCircle } from "react-icons/fi";
+import { FiSend, FiCheckCircle, FiArrowLeft } from "react-icons/fi";
 import { LoadingSpinner } from "../../components/loading-spinner";
 import { useToast } from "../../components/toast-provider";
 
@@ -38,8 +39,14 @@ export default function ContactPage() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center py-20 px-4 font-sans text-foreground">
       <div className="w-full max-w-lg">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground mb-6 transition-colors"
+        >
+          <FiArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
         <div className="mb-10 text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold font-display tracking-tight mb-4">Get in touch</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold font-display tracking-tight mb-4">Get in touch</h1>
           <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
             Have a project in mind or just want to say hi? Fill out the form below and I'll get back to you as soon as possible.
           </p>

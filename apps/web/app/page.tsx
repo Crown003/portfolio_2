@@ -1,13 +1,16 @@
 import React from "react";
 import Dashboard from "../components/dashboard";
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight, FiBookOpen } from "react-icons/fi";
 import Testimonials from "../components/testimonials";
-import Experience from "../components/experience";
-import TechStack from "../components/tech-stack";
+import dynamic from "next/dynamic";
 import { getExperiences, seedExperiences } from "./actions/experience";
+
+const Experience = dynamic(() => import("../components/experience"));
+const TechStack = dynamic(() => import("../components/tech-stack"));
 import { db } from "@repo/database";
 
 export default async function Home() {
@@ -23,6 +26,7 @@ export default async function Home() {
 
   const posProject = featuredProjects.find(p => p.title.toLowerCase().includes("pos"));
   const kdProject = featuredProjects.find(p => p.title.toLowerCase().includes("kd") || p.title.toLowerCase().includes("home"));
+  const otherProjects = featuredProjects.filter(p => p.id !== posProject?.id && p.id !== kdProject?.id);
 
   return (
     <div className="relative flex flex-col pt-6 sm:pt-10 pb-0 font-sans antialiased text-foreground">
@@ -34,7 +38,7 @@ export default async function Home() {
         <div className="rotating-chip-container mb-2 sm:mb-4">
           <div className="rotating-chip-glow" />
           <div className="relative z-10 flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-card text-xs font-semibold text-slate-600 dark:text-slate-400 select-none">
-            <span>Building with passion</span>
+            <span>Open for freelance projects</span>
           </div>
         </div>
 
@@ -144,10 +148,12 @@ export default async function Home() {
                   <div className="flex flex-col sm:hidden">
                     {/* Image area with smooth bottom fade */}
                     <div className="relative w-full aspect-[4/3] overflow-hidden">
-                      <img
+                      <Image
                         src="/pos-system.jpg"
                         alt="POS System for Stalls & Small Businesses"
-                        className="w-full h-full object-cover object-center"
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 640px) 100vw, 50vw"
                       />
                       {/* Smooth gradient fade into card background */}
                       <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-900 dark:via-slate-900/80 dark:to-transparent" />
@@ -198,10 +204,12 @@ export default async function Home() {
                   {/* ═══════════ DESKTOP LAYOUT (original overlay design) ═══════════ */}
                   <div className="hidden sm:flex flex-col h-full min-h-[310px]">
                     {/* Full-bleed background */}
-                    <img
+                    <Image
                       src="/pos-system.jpg"
                       alt="POS System for Stalls & Small Businesses"
-                      className="absolute inset-0 w-full h-full object-cover object-center"
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 640px) 100vw, 50vw"
                     />
 
                     {/* Vignette */}
@@ -307,6 +315,30 @@ export default async function Home() {
 
             </div>
           </div>
+
+          {/* Additional Featured Projects Grid */}
+          {otherProjects.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              {otherProjects.map((project: any) => (
+                <Link key={project.id} href="/projects" className="group flex flex-col gap-3 p-4 rounded-xl border border-border bg-card/50 hover:bg-card hover:shadow-md transition-all duration-300">
+                  {project.imageUrl && (
+                    <div className="w-full aspect-video rounded-lg overflow-hidden relative">
+                      <Image
+                        src={project.imageUrl}
+                        alt={project.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <h4 className="font-bold font-display text-sm group-hover:text-sky-500 transition-colors">{project.title}</h4>
+                  <p className="text-xs text-slate-500 line-clamp-2">{project.description}</p>
+                </Link>
+              ))}
+            </div>
+          )}
+          
         </div>
       </div>
 

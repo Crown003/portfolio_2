@@ -30,7 +30,7 @@ interface CompanyExperience {
   totalDuration: string;
   location: string;
   logoInitial: string;
-  roles: any; // Using any or specific Role[] type as parsed from JSON
+  roles: Role[];
 }
 
 export default function Experience({ experiences }: { experiences: CompanyExperience[] }) {
@@ -44,7 +44,7 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-screen bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
       <div className="w-full flex flex-col gap-12 relative z-10">
-        <div className="w-[95%] max-w-4xl mx-auto flex flex-col gap-8 py-12 sm:py-32 md:py-28">
+        <div className="w-[95%] max-w-7xl mx-auto flex flex-col gap-8 py-12 sm:py-32 md:py-28">
           <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
             <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
               Professional{" "}
@@ -102,9 +102,11 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
                             <div className="absolute -left-[35px] sm:-left-[43px] top-2 w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 ring-4 ring-background z-10" />
                           )}
 
-                          <div 
-                            className="group cursor-pointer rounded-xl transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 p-2 -mx-2"
+                          <button 
+                            className="group cursor-pointer rounded-xl transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-900/50 p-2 -mx-2 w-full text-left"
                             onClick={() => toggleExpand(roleKey)}
+                            aria-expanded={isExpanded}
+                            aria-controls={`role-details-${roleKey}`}
                           >
                             <div className="flex items-start justify-between">
                               {exp.roles.length === 1 ? (
@@ -145,10 +147,11 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
                                 </svg>
                               </div>
                             </div>
-
+                          </button>
                             <AnimatePresence initial={false}>
                               {isExpanded && (
                                 <motion.div
+                                  id={`role-details-${roleKey}`}
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
@@ -179,7 +182,6 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
                                 </motion.div>
                               )}
                             </AnimatePresence>
-                          </div>
                         </div>
                       );
                     })}

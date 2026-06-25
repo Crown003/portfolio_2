@@ -33,7 +33,6 @@ const footerLinks: FooterColumn[] = [
       { label: "Home", href: "/" },
       { label: "Blogs", href: "/blogs" },
       { label: "Projects", href: "/projects" },
-      { label: "Services", href: "/services" },
     ],
   },
   {
