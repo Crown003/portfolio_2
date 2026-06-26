@@ -62,13 +62,13 @@ export default async function Home() {
 
         {/* Dual CTA Buttons */}
         <div className="w-full text-center md:text-left flex flex-col md:flex-row items-center gap-3.5 mt-4">
-          <a
-            href="#dashboard-section"
+          <Link
+            href="/projects"
             className="inline-flex justify-center w-full max-w-full md:w-fit items-center gap-1.5 bg-slate-900  hover:opacity-90 px-5 py-2.5 rounded-lg font-bold text-sm select-none text-white shadow-[0px_0px_10px_0px_rgba(255,255,255,0.2)_inset] ring ring-white/20 ring-offset-2 ring-offset-neutral-900 transition-all duration-200 ring-inset hover:shadow-[0px_0px_20px_0px_rgba(255,255,255,0.4)_inset] hover:ring-white/40 active:scale-98 dark:bg-white dark:text-black dark:shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)_inset] dark:ring-black/20 dark:ring-offset-white dark:hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.3)_inset] dark:hover:ring-black/50"
           >
             <span>Explore My Works</span>
             <span className="text-xs">→</span>
-          </a>
+          </Link>
 
           <Link
             href="/blogs"
@@ -104,9 +104,10 @@ export default async function Home() {
               {/* Increased mobile text size to text-3xl (originally text-xl) and tightened leading to leading-none on mobile */}
               <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
                 Transforming concepts into{" "}
-                <span className="text-[oklch(62.3%_0.214_259.815)]">
-                  functional applications.
+                <span className="bg-gradient-to-r from-blue-500 via-blue-500 via-55% to-purple-500 text-transparent bg-clip-text">
+                  functional applications
                 </span>
+                .
               </h2>
 
               {/* Tightened paragraph line-height on mobile (leading-snug), returns to original (sm:leading-relaxed) on desktops */}

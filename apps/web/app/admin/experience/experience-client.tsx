@@ -90,15 +90,16 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-4xl mx-auto p-4 w-full">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-6 md:gap-8 max-w-4xl mx-auto w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h2 className="text-xl font-bold">Existing Experiences</h2>
         {!showForm && (
           <button 
             onClick={() => setShowForm(true)} 
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-98 transition-all duration-200 shadow-md cursor-pointer select-none whitespace-nowrap"
           >
-            <FiPlus /> Add Experience
+            <FiPlus className="w-4 h-4" />
+            <span>Add Experience</span>
           </button>
         )}
       </div>
@@ -107,7 +108,7 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
         <div className="bg-card border border-border rounded-lg p-6 shadow-sm">
           <h2 className="text-xl font-bold mb-4">{editingId ? "Edit Experience" : "Add New Experience"}</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium">Company/Title</label>
               <input required value={company} onChange={e => setCompany(e.target.value)} className="p-2 border rounded bg-background" placeholder="e.g. TMG Esports" />
@@ -142,7 +143,7 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
             />
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 mt-2">
             <button disabled={loading} type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded font-medium hover:bg-primary/90">
               {loading ? "Saving..." : "Save"}
             </button>
@@ -162,14 +163,14 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
 
       <div className="flex flex-col gap-4">
         {experiences.sort((a, b) => a.order - b.order).map(exp => (
-          <div key={exp.id} className="p-4 border border-border rounded-lg bg-card flex justify-between items-center">
+          <div key={exp.id} className="p-4 border border-border rounded-lg bg-card flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div>
-              <h3 className="font-bold">{exp.company} <span className="text-muted-foreground text-sm font-normal ml-2">(Order: {exp.order})</span></h3>
-              <p className="text-sm text-muted-foreground">{exp.totalDuration} · {exp.location}</p>
+              <h3 className="font-bold">{exp.company} <span className="text-muted-foreground text-sm font-normal sm:ml-2 inline-block">(Order: {exp.order})</span></h3>
+              <p className="text-sm text-muted-foreground mt-1">{exp.totalDuration} · {exp.location}</p>
             </div>
-            <div className="flex gap-2">
-              <button onClick={() => handleEdit(exp)} className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-sm hover:bg-secondary/80">Edit</button>
-              <button onClick={() => handleDelete(exp.id)} className="px-3 py-1 bg-red-500/10 text-red-500 rounded text-sm hover:bg-red-500/20">Delete</button>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button onClick={() => handleEdit(exp)} className="flex-1 sm:flex-none px-4 py-2 sm:px-3 sm:py-1 bg-secondary text-secondary-foreground rounded text-sm hover:bg-secondary/80 font-medium">Edit</button>
+              <button onClick={() => handleDelete(exp.id)} className="flex-1 sm:flex-none px-4 py-2 sm:px-3 sm:py-1 bg-red-500/10 text-red-500 rounded text-sm hover:bg-red-500/20 font-medium">Delete</button>
             </div>
           </div>
         ))}
