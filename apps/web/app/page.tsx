@@ -16,12 +16,12 @@ import { db } from "@repo/database";
 export default async function Home() {
   // Ensure experiences are seeded
   await seedExperiences();
-  
+
   const featuredProjects = await db.project.findMany({
     where: { showOnHomepage: true },
     orderBy: { createdAt: "desc" }
   });
-  
+
   const experiencesData = await getExperiences();
 
   const posProject = featuredProjects.find(p => p.title.toLowerCase().includes("pos"));
@@ -94,14 +94,14 @@ export default async function Home() {
 
       {/* Gridline Project Showcase Section */}
       <div className="relative left-1/2 -translate-x-1/2 w-screen bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
-        {/* Full screen width content wrapper with custom layout sections */}
-        <div className="w-full flex flex-col gap-12 relative z-10">
-          {/* Header Row: Aligned to 95% width page layout constraint */}
-          {/* Tightened the massive vertical padding on mobile (py-12), returns to original (sm:py-32 md:py-28) on larger screens */}
+        {/* Diagonal stroke bg across the ENTIRE section */}
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[repeating-linear-gradient(45deg,rgb(0_0_0/0.03)_0,rgb(0_0_0/0.03)_1px,transparent_1px,transparent_0.5rem)] dark:bg-[repeating-linear-gradient(45deg,rgb(255_255_255/0.03)_0,rgb(255_255_255/0.03)_1px,transparent_1px,transparent_0.5rem)]" />
+
+        {/* Full screen width content wrapper */}
+        <div className="w-full flex flex-col relative z-10">
+          {/* Header Row */}
           <div className="w-[95%] max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 py-12 sm:py-32 md:py-28">
-            {/* Reduced gap between header and paragraph from gap-3 to gap-1.5 on mobile */}
             <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
-              {/* Increased mobile text size to text-3xl (originally text-xl) and tightened leading to leading-none on mobile */}
               <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
                 Transforming concepts into{" "}
                 <span className="bg-gradient-to-r from-blue-500 via-blue-500 via-55% to-purple-500 text-transparent bg-clip-text">
@@ -109,8 +109,6 @@ export default async function Home() {
                 </span>
                 .
               </h2>
-
-              {/* Tightened paragraph line-height on mobile (leading-snug), returns to original (sm:leading-relaxed) on desktops */}
               <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug sm:leading-relaxed font-sans font-normal">
                 A showcase of projects built with a focus on clean architecture,
                 reliable performance, and smooth user experiences.
@@ -128,46 +126,29 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Bento Grid Layout: Cards breakout wide, borders drawn outside cards on grid cell dividers */}
+          {/* Bento Grid */}
           <div className="w-full max-w-[100rem] mx-auto">
             <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-y border-dashed border-slate-200/80 dark:border-slate-800/80">
-              {/* Repeating 45deg diagonal grid-line bg effect with bottom fade mask */}
-              <div className="pointer-events-none absolute inset-0 z-0 bg-[repeating-linear-gradient(45deg,rgb(0_0_0/0.04)_0,rgb(0_0_0/0.04)_1px,transparent_1px,transparent_0.4rem)] dark:bg-[repeating-linear-gradient(45deg,rgb(255_255_255/0.04)_0,rgb(255_255_255/0.04)_1px,transparent_1px,transparent_0.4rem)] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" />
 
-              {/* Cell 1: POS System for Stalls & Small Businesses */}
-              <div className="p-6 md:p-8 border-b md:border-r lg:border-b lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col group/card">
+              {/* Cell 1: POS System (1 col) */}
+              <div className="p-6 md:p-8 border-b md:border-r lg:border-r border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col group/card">
                 <div
                   className="w-full h-full relative flex flex-col rounded-2xl overflow-hidden sm:min-h-[310px] bg-slate-50 dark:bg-slate-900 shadow-sm shadow-slate-100 dark:shadow-none ring-1 ring-slate-200/50 dark:ring-slate-800/50 hover:shadow-xl hover:shadow-emerald-500/5 dark:hover:shadow-emerald-500/5 hover:ring-emerald-500/40 dark:hover:ring-emerald-500/40 transition-all duration-300"
                 >
-                  {/* Invisible clickable layer */}
                   <form action={async () => { "use server"; redirect("/projects/pos-system"); }} className="absolute inset-0 z-[3]">
                     <button type="submit" className="w-full h-full opacity-0 cursor-pointer" aria-label="View POS System" />
                   </form>
 
-                  {/* ═══════════ MOBILE LAYOUT (stacked: image top → text bottom) ═══════════ */}
+                  {/* MOBILE LAYOUT */}
                   <div className="flex flex-col sm:hidden">
-                    {/* Image area with smooth bottom fade */}
                     <div className="relative w-full aspect-[4/3] overflow-hidden">
-                      <Image
-                        src="/pos-system.jpg"
-                        alt="POS System for Stalls & Small Businesses"
-                        fill
-                        className="object-cover object-center"
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                      />
-                      {/* Smooth gradient fade into card background */}
+                      <Image src="/pos-system.jpg" alt="POS System for Stalls & Small Businesses" fill className="object-cover object-center" sizes="(max-width: 640px) 100vw, 50vw" />
                       <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent dark:from-slate-900 dark:via-slate-900/80 dark:to-transparent" />
-                      {/* Vignette to soften edges */}
                       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.15)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.4)_100%)] pointer-events-none" />
                     </div>
-
-                    {/* Text content */}
                     <div className="flex flex-col gap-3 px-5 pb-6 -mt-6 relative z-[1]">
                       <div className="flex items-center gap-2.5 flex-wrap">
-                        <h4 className="text-lg font-bold text-slate-900 dark:text-white font-display group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors duration-300">
-                          POS System
-                        </h4>
-                        {/* Live Indicator */}
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white font-display group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors duration-300">POS System</h4>
                         <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 ring-1 ring-emerald-500/20 dark:ring-emerald-500/25">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                           <span className="text-[7px] font-mono font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Live</span>
@@ -178,56 +159,25 @@ export default async function Home() {
                           </Link>
                         )}
                       </div>
-
-                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-medium">
-                        Smart billing & checkout system for stalls and small businesses. Serving 2 businesses in NCR.
-                      </p>
-
-                      {/* Tech tags */}
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-medium">Smart billing & checkout system for stalls and small businesses. Serving 2 businesses in NCR.</p>
                       <div className="flex items-center gap-2 flex-wrap pt-2 pointer-events-auto">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">
-                          <svg className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M14.314 0L2.3 12 6 15.7 21.684.012h-7.37zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z" /></svg>
-                          Flutter
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">
-                          <svg className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M3.89 15.672L6.255.461A.542.542 0 017.27.288l2.543 4.771zm16.794 3.692l-2.25-14a.54.54 0 00-.919-.295L3.316 19.365l7.856 4.427a1.621 1.621 0 001.588 0zM14.3 7.147l-1.356-2.558a.54.54 0 00-.96 0L3.89 15.672z" /></svg>
-                          Firebase
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">
-                          <svg className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0012 1.5c-.96 0-1.86.23-2.66.63L7.88.65c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.983 5.983 0 006 8h12a5.983 5.983 0 00-2.47-5.84zM10 6H9V5h1v1zm5 0h-1V5h1v1z" /></svg>
-                          Android
-                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">Flutter</span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">Firebase</span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800/50 ring-1 ring-slate-200 dark:ring-slate-700/50">Android</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* ═══════════ DESKTOP LAYOUT (original overlay design) ═══════════ */}
+                  {/* DESKTOP LAYOUT */}
                   <div className="hidden sm:flex flex-col h-full min-h-[310px]">
-                    {/* Full-bleed background */}
-                    <Image
-                      src="/pos-system.jpg"
-                      alt="POS System for Stalls & Small Businesses"
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
-
-                    {/* Vignette */}
+                    <Image src="/pos-system.jpg" alt="POS System for Stalls & Small Businesses" fill className="object-cover object-center" sizes="(max-width: 640px) 100vw, 50vw" />
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.22)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)] z-[1] pointer-events-none" />
-
-                    {/* Solid clip zone for text readability */}
                     <div className="absolute top-0 left-0 w-[60%] h-[68%] bg-white dark:bg-slate-950 z-[2] transition-colors duration-300 clip-pos-vignette" />
-
-                    {/* Bottom gradient for tech tags */}
                     <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white/95 via-white/70 to-transparent dark:from-slate-950/95 dark:via-slate-950/70 dark:to-transparent z-[2] pointer-events-none" />
-
-                    {/* Content */}
                     <div className="flex flex-col relative z-10 h-full justify-between p-6 pointer-events-none">
                       <div className="flex flex-col gap-2.5 max-w-[45%] pointer-events-none">
                         <div className="flex items-center gap-2.5">
-                          <h4 className="text-base font-bold text-slate-900 dark:text-white font-display group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors duration-300">
-                            POS System
-                          </h4>
+                          <h4 className="text-base font-bold text-slate-900 dark:text-white font-display group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors duration-300">POS System</h4>
                           <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 ring-1 ring-emerald-500/20 dark:ring-emerald-500/25">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                             <span className="text-[7px] font-mono font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Live</span>
@@ -238,30 +188,14 @@ export default async function Home() {
                             </Link>
                           )}
                         </div>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 group-hover/card:text-slate-900 group-hover/card:dark:text-slate-100 transition-colors duration-300 leading-relaxed font-sans font-medium">
-                          Smart billing & checkout system for stalls and small businesses. Serving 2 businesses in NCR.
-                        </p>
+                        <p className="text-xs text-slate-600 dark:text-slate-300 group-hover/card:text-slate-900 group-hover/card:dark:text-slate-100 transition-colors duration-300 leading-relaxed font-sans font-medium">Smart billing & checkout system for stalls and small businesses. Serving 2 businesses in NCR.</p>
                       </div>
-
-                      {/* Tech Stack */}
                       <div className="w-full overflow-x-auto no-scrollbar mt-auto pt-6 pointer-events-auto">
                         <div className="flex items-center gap-2 whitespace-nowrap">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
-                            <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M14.314 0L2.3 12 6 15.7 21.684.012h-7.37zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z" /></svg>
-                            Flutter
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
-                            <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M3.89 15.672L6.255.461A.542.542 0 017.27.288l2.543 4.771zm16.794 3.692l-2.25-14a.54.54 0 00-.919-.295L3.316 19.365l7.856 4.427a1.621 1.621 0 001.588 0zM14.3 7.147l-1.356-2.558a.54.54 0 00-.96 0L3.89 15.672z" /></svg>
-                            Firebase
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
-                            <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48A5.84 5.84 0 0012 1.5c-.96 0-1.86.23-2.66.63L7.88.65c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31A5.983 5.983 0 006 8h12a5.983 5.983 0 00-2.47-5.84zM10 6H9V5h1v1zm5 0h-1V5h1v1z" /></svg>
-                            Android
-                          </span>
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">
-                            <svg className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                            Closed Source
-                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">Flutter</span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">Firebase</span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">Android</span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-white/95 dark:bg-slate-900/95 shadow-sm ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:ring-slate-300 dark:hover:ring-slate-700 cursor-pointer">Closed Source</span>
                         </div>
                       </div>
                     </div>
@@ -269,18 +203,15 @@ export default async function Home() {
                 </div>
               </div>
 
-              {/* Cell 2: KD Home Tutorial Live Iframe */}
-              <div className="p-6 md:p-8 lg:col-span-2 border-b lg:border-b border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
+              {/* Cell 2: KD Home Tutorial Live Iframe (2 cols) */}
+              <div className="p-6 md:p-8 lg:col-span-2 border-b border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col">
                 <div
                   className="w-full h-full relative group flex flex-col rounded-2xl overflow-hidden bg-card/45 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 shadow-sm shadow-slate-100 dark:shadow-none hover:shadow-xl hover:shadow-amber-500/5 dark:hover:shadow-amber-500/5 hover:ring-1 hover:ring-amber-500/30 transition-all duration-300"
                 >
-                  {/* Invisible clickable layer to avoid nested <a> tags */}
                   <form action={async () => { "use server"; redirect("https://www.kdhometutorial.in/"); }} className="absolute inset-0 z-[3]">
                     <button type="submit" className="w-full h-full opacity-0 cursor-pointer" aria-label="View KD Home Tutorial" />
                   </form>
-                  {/* Browser Mockup Structure */}
                   <div className="w-full h-full flex flex-col overflow-hidden">
-                    {/* macOS Window header bar */}
                     <div className="h-9 border-b border-border/80 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm flex items-center justify-between px-4 select-none shrink-0 relative z-10 pointer-events-none">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-[#ff5f56]/90" />
@@ -291,7 +222,6 @@ export default async function Home() {
                         <span>🔒</span>
                         <span>kdhometutorial.in</span>
                       </div>
-                      
                       {kdProject?.blogPostId ? (
                         <Link href={`/blogs/${kdProject.blogPostId}`} className="pointer-events-auto flex items-center gap-1.5 px-2 py-1 bg-emerald-500 text-white rounded-md text-[9px] font-bold hover:bg-emerald-600 transition-colors shadow-sm">
                           <FiBookOpen /> Case Study
@@ -300,8 +230,6 @@ export default async function Home() {
                         <div className="w-10 h-2" />
                       )}
                     </div>
-
-                    {/* Content area: Fixed aspect ratio/height to resolve iframe layout visibility */}
                     <div className="w-full h-[320px] sm:h-[350px] md:h-[400px] bg-white relative overflow-hidden">
                       <iframe
                         src="https://www.kdhometutorial.in/"
@@ -313,32 +241,82 @@ export default async function Home() {
                 </div>
               </div>
 
+              {/* Dynamic Featured Projects — alternating 2-1 / 1-2 pattern to fill rows */}
+              {otherProjects.map((project: any, i: number) => {
+                // Row pattern: even rows = [2col, 1col], odd rows = [1col, 2col]
+                const posInRow = i % 2;
+                const rowIndex = Math.floor(i / 2);
+                const isWide = (rowIndex % 2 === 0) ? posInRow === 0 : posInRow === 1;
+
+                return (
+                  <div
+                    key={project.id}
+                    className={`p-6 md:p-8 border-b border-dashed border-slate-200/80 dark:border-slate-800/80 flex flex-col group/card
+                      ${isWide ? 'lg:col-span-2 md:col-span-2' : 'lg:col-span-1 md:col-span-1'}
+                      [&:not(:last-child)]:border-r-0 md:[&:nth-child(odd)]:border-r md:border-r border-r-0 lg:border-r
+                    `}
+                  >
+                    <div className="w-full h-full relative flex flex-col rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 shadow-sm shadow-slate-100 dark:shadow-none ring-1 ring-slate-200/50 dark:ring-slate-800/50 hover:shadow-xl hover:shadow-sky-500/10 dark:hover:shadow-sky-500/10 hover:ring-sky-500/40 dark:hover:ring-sky-500/40 transition-all duration-300">
+                      <form action={async () => { "use server"; redirect(project.slug ? `/projects/${project.slug}` : `/projects`); }} className="absolute inset-0 z-[3]">
+                        <button type="submit" className="w-full h-full opacity-0 cursor-pointer" aria-label={`View ${project.title}`} />
+                      </form>
+
+                      {/* Image */}
+                      <div className="relative w-full aspect-video overflow-hidden bg-card">
+                        {project.imageUrl ? (
+                          <Image
+                            src={project.imageUrl}
+                            alt={project.title}
+                            fill
+                            className="object-contain"
+                            sizes={isWide ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-slate-400 dark:text-slate-600 font-display font-medium text-base">No Preview</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex flex-col gap-2.5 p-5 md:p-6 flex-grow">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <h4 className="text-base md:text-lg font-bold text-slate-900 dark:text-white font-display group-hover/card:text-sky-500 transition-colors duration-300">
+                            {project.title}
+                          </h4>
+                          {project.liveUrl && (
+                            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 ring-1 ring-emerald-500/20 dark:ring-emerald-500/25">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+                              <span className="text-[7px] font-mono font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">Live</span>
+                            </span>
+                          )}
+                          {project.blogPostId && (
+                            <Link href={`/blogs/${project.blogPostId}`} className="pointer-events-auto flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500 text-white rounded-md text-[10px] font-bold hover:bg-emerald-600 transition-colors shadow-sm z-[4] relative">
+                              <FiBookOpen /> Case Study
+                            </Link>
+                          )}
+                        </div>
+                        <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-medium line-clamp-2">
+                          {project.description}
+                        </p>
+                        {project.tags && project.tags.length > 0 && (
+                          <div className="flex items-center gap-1.5 flex-wrap pt-1 mt-auto">
+                            {project.tags.slice(0, 4).map((tag: string) => (
+                              <span key={tag} className="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800/60 ring-1 ring-slate-200 dark:ring-slate-700/50">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
             </div>
           </div>
 
-          {/* Additional Featured Projects Grid */}
-          {otherProjects.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {otherProjects.map((project: any) => (
-                <Link key={project.id} href="/projects" className="group flex flex-col gap-3 p-4 rounded-xl border border-border bg-card/50 hover:bg-card hover:shadow-md transition-all duration-300">
-                  {project.imageUrl && (
-                    <div className="w-full aspect-video rounded-lg overflow-hidden relative">
-                      <Image
-                        src={project.imageUrl}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                  )}
-                  <h4 className="font-bold font-display text-sm group-hover:text-sky-500 transition-colors">{project.title}</h4>
-                  <p className="text-xs text-slate-500 line-clamp-2">{project.description}</p>
-                </Link>
-              ))}
-            </div>
-          )}
-          
         </div>
       </div>
 

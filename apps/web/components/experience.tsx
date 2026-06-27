@@ -44,7 +44,7 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-screen bg-background shadow-[0_8px_40px_-8px_rgba(0,0,0,0.06)_inset] dark:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.7)_inset] border-t border-dashed border-slate-200/80 dark:border-slate-800/80">
       <div className="w-full flex flex-col gap-12 relative z-10">
-        <div className="w-[95%] max-w-7xl mx-auto flex flex-col gap-8 py-12 sm:py-32 md:py-28">
+        <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 px-4 md:px-8 py-12 sm:py-32 md:py-28">
           <div className="flex flex-col gap-1.5 sm:gap-3 max-w-xl">
             <h2 className="text-2xl text-balance sm:text-3xl font-semibold tracking-tight text-foreground font-display leading-[1.1]">
               Professional{" "}
