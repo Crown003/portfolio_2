@@ -67,9 +67,6 @@ export default function Experience({ experiences }: { experiences: CompanyExperi
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border border-slate-200/50 dark:border-slate-700/50 bg-white/40 dark:bg-slate-800/40 backdrop-blur-md shadow-[0_4px_12px_-2px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.5)] ring-1 ring-inset ring-white/50 dark:ring-white/10 group-hover:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.15)] transition-all duration-300">
                     <FiBriefcase className="w-5 h-5 text-slate-600 dark:text-slate-300" />
                   </div>
-                  {Array.isArray(exp.roles) && exp.roles.length > 1 && (
-                    <div className="w-0.5 bg-slate-200 dark:bg-slate-800 flex-1 mt-2 mb-2 rounded-full" />
-                  )}
                 </div>
 
                 {/* Content column */}
