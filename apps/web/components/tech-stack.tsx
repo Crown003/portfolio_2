@@ -5,7 +5,7 @@ import { techStackCategories } from "./tech-data";
 
 export default function TechStack() {
   return (
-    <div className="w-full relative py-32 sm:py-40 bg-background text-foreground border-t border-dashed border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+    <div className="w-[95%] sm:w-full max-w-screen-2xl mx-auto relative py-24 sm:py-32 my-12 sm:my-0 bg-white dark:bg-background text-foreground border border-slate-200 dark:border-x-0 dark:border-b-0 dark:border-t dark:border-dashed dark:border-slate-800/80 overflow-hidden rounded-[12px] sm:rounded-none shadow-sm sm:shadow-none">
       {/* Ambient background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none" />
 

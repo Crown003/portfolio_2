@@ -13,6 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "Blogs", href: "/admin/blogs", icon: FiBookOpen },
     { name: "Projects", href: "/admin/projects", icon: FiBriefcase },
     { name: "Experience", href: "/admin/experience", icon: FiBriefcase },
+    { name: "Feedback", href: "/admin/feedback", icon: FiMessageSquare },
     { name: "Messages", href: "/admin/messages", icon: FiMessageSquare },
   ];
 
@@ -22,7 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {!isSidebarOpen && (
         <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card/80 backdrop-blur-sm sticky top-[72px] z-30 shrink-0">
           <div className="flex items-center gap-2 text-foreground font-display font-bold text-lg">
-            <FiSettings className="text-sky-500" />
+            <FiSettings className="text-foreground" />
             <span>Admin Portal</span>
           </div>
           <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-500 hover:text-foreground">
@@ -46,7 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Mobile sidebar header with close button */}
         <div className="flex items-center justify-between p-4 border-b border-border md:hidden bg-card mt-[72px]">
           <Link href="/admin/blogs" className="flex items-center gap-2 text-foreground font-display font-bold text-lg">
-            <FiSettings className="text-sky-500" />
+            <FiSettings className="text-foreground" />
             <span>Admin Portal</span>
           </Link>
           <button onClick={() => setIsSidebarOpen(false)} className="p-2 text-slate-500 hover:text-foreground bg-slate-100 dark:bg-slate-800 rounded-lg">
@@ -56,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Desktop sidebar header */}
         <div className="p-6 border-b border-border hidden md:flex">
           <Link href="/admin/blogs" className="flex items-center gap-2 text-foreground font-display font-bold text-lg">
-            <FiSettings className="text-sky-500" />
+            <FiSettings className="text-foreground" />
             <span>Admin Portal</span>
           </Link>
         </div>
@@ -71,11 +72,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold"
+                    ? "bg-slate-200/50 text-slate-900 dark:bg-white/10 dark:text-white font-bold"
                     : "text-slate-500 hover:text-foreground hover:bg-slate-500/5"
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? "text-sky-500" : ""}`} />
+                <Icon className={`w-5 h-5`} />
                 {item.name}
               </Link>
             );

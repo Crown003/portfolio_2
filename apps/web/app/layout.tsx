@@ -73,8 +73,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-clip overflow-y-auto">
       <body className={`bg-background selection:bg-sky-500/20 selection:text-sky-600 text-foreground min-h-screen flex flex-col items-center justify-start m-0 p-0 ${geistSans.variable} ${geistMono.variable} font-sans overflow-x-clip`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <ClerkProvider>
+        <ClerkProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <ToastProvider>
               <Navbar />
               <SmoothScroll>
@@ -88,8 +88,8 @@ export default function RootLayout({
                 </footer>
               </SmoothScroll>
             </ToastProvider>
-          </ClerkProvider>
-        </ThemeProvider>
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );}

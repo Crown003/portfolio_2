@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Dashboard from "../components/dashboard";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight, FiBookOpen } from "react-icons/fi";
-import Testimonials from "../components/testimonials";
+import Testimonials, { TestimonialsSkeleton } from "../components/testimonials";
 import dynamic from "next/dynamic";
 import { getExperiences, seedExperiences } from "./actions/experience";
 
@@ -322,7 +322,19 @@ export default async function Home() {
 
       <TechStack />
 
-      {/* <Testimonials /> */}
+      <Suspense fallback={<TestimonialsSkeleton />}>
+        <TestimonialsSection />
+      </Suspense>
     </div>
   );
+}
+
+async function TestimonialsSection() {
+  const testimonialsData = await db.testimonial.findMany({
+    where: { showOnHome: true },
+    orderBy: { createdAt: "desc" },
+    include: { project: true }
+  });
+
+  return <Testimonials testimonials={testimonialsData as any} />;
 }
