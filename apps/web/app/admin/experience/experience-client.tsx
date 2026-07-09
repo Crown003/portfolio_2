@@ -14,15 +14,48 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
   // Form State
   const [company, setCompany] = useState("");
   const [totalDuration, setTotalDuration] = useState("");
+  const [calcStartDate, setCalcStartDate] = useState("");
+  const [calcEndDate, setCalcEndDate] = useState("");
   const [location, setLocation] = useState("");
   const [logoInitial, setLogoInitial] = useState("");
   const [order, setOrder] = useState(0);
   const [rolesJson, setRolesJson] = useState("[]");
   const [loading, setLoading] = useState(false);
 
+  React.useEffect(() => {
+    if (calcStartDate) {
+      const start = new Date(calcStartDate);
+      const end = calcEndDate ? new Date(calcEndDate) : new Date();
+      
+      let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+      // Inclusive of the start month, usually add 1
+      months += 1;
+      if (months < 0) months = 0;
+      
+      if (!calcEndDate) {
+        const years = Math.floor(months / 12);
+        if (years >= 1) {
+            setTotalDuration(`${years}+ yrs`);
+        } else {
+            setTotalDuration(`${months}+ mos`);
+        }
+      } else {
+        const years = Math.floor(months / 12);
+        const remainingMonths = months % 12;
+        let durationStr = [];
+        if (years > 0) durationStr.push(years === 1 ? "1 yr" : `${years} yrs`);
+        if (remainingMonths > 0) durationStr.push(remainingMonths === 1 ? "1 mo" : `${remainingMonths} mos`);
+        if (durationStr.length === 0) durationStr.push("1 mo");
+        setTotalDuration(durationStr.join(" "));
+      }
+    }
+  }, [calcStartDate, calcEndDate]);
+
   const resetForm = () => {
     setCompany("");
     setTotalDuration("");
+    setCalcStartDate("");
+    setCalcEndDate("");
     setLocation("");
     setLogoInitial("");
     setOrder(0);
@@ -36,6 +69,8 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
     setEditingId(exp.id);
     setCompany(exp.company);
     setTotalDuration(exp.totalDuration);
+    setCalcStartDate("");
+    setCalcEndDate("");
     setLocation(exp.location);
     setLogoInitial(exp.logoInitial);
     setOrder(exp.order);
@@ -109,12 +144,21 @@ export default function ExperienceClient({ initialExperiences }: { initialExperi
           <h2 className="text-xl font-bold mb-4">{editingId ? "Edit Experience" : "Add New Experience"}</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1 sm:col-span-2">
+              <label className="text-sm font-medium">Auto-Calculate Duration</label>
+              <div className="flex gap-2">
+                <input type="month" value={calcStartDate} onChange={e => setCalcStartDate(e.target.value)} className="p-2 border rounded bg-background flex-1 text-sm" aria-label="Start Month" />
+                <input type="month" value={calcEndDate} onChange={e => setCalcEndDate(e.target.value)} className="p-2 border rounded bg-background flex-1 text-sm" aria-label="End Month (Leave empty for Present)" />
+                <button type="button" onClick={() => { setCalcStartDate(''); setCalcEndDate(''); }} className="px-3 py-2 border rounded hover:bg-muted text-sm shrink-0">Clear</button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Pick dates to auto-fill the Total Duration field. Leave End Date blank for present/ongoing.</p>
+            </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium">Company/Title</label>
               <input required value={company} onChange={e => setCompany(e.target.value)} className="p-2 border rounded bg-background" placeholder="e.g. TMG Esports" />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium">Total Duration</label>
+              <label className="text-sm font-medium">Total Duration (Manual Override)</label>
               <input required value={totalDuration} onChange={e => setTotalDuration(e.target.value)} className="p-2 border rounded bg-background" placeholder="e.g. 3 yrs" />
             </div>
             <div className="flex flex-col gap-1">
