@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@repo/database";
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -21,6 +22,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       }
     });
 
+    revalidatePath('/projects');
+    revalidatePath('/');
+
     return NextResponse.json(project);
   } catch (error: any) {
     console.error("Failed to update project:", error);
@@ -32,6 +36,10 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   try {
     const { id } = await params;
     await db.project.delete({ where: { id } });
+    
+    revalidatePath('/projects');
+    revalidatePath('/');
+
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Failed to delete project:", error);

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 import ProjectsGrid from "../../components/projects-grid";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10800; // Revalidate every 3 hours
 export default async function ProjectsPage() {
   const projects = await db.project.findMany({
     orderBy: { createdAt: "desc" }

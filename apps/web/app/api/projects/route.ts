@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@repo/database";
 
 export async function GET() {
@@ -38,6 +39,9 @@ export async function POST(req: Request) {
         blogPostId: blogPostId || null
       }
     });
+
+    revalidatePath('/projects');
+    revalidatePath('/');
 
     return NextResponse.json(project, { status: 201 });
   } catch (error: any) {
