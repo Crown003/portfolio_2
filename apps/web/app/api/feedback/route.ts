@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@repo/database";
 
 export async function GET() {
@@ -35,6 +36,8 @@ export async function POST(req: Request) {
         rating: rating !== undefined ? Number(rating) : 5,
       }
     });
+
+    revalidatePath("/admin/feedback");
 
     return NextResponse.json(testimonial, { status: 201 });
   } catch (error: any) {

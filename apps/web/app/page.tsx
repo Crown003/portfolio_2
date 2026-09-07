@@ -6,11 +6,13 @@ import { redirect } from "next/navigation";
 import HeroBackground from "../components/hero-background";
 import { FiArrowRight, FiBookOpen } from "react-icons/fi";
 import Testimonials, { TestimonialsSkeleton } from "../components/testimonials";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 import { getExperiences, seedExperiences } from "./actions/experience";
 
-const Experience = dynamic(() => import("../components/experience"));
-const TechStack = dynamic(() => import("../components/tech-stack"));
+export const dynamic = "force-dynamic";
+
+const Experience = nextDynamic(() => import("../components/experience"));
+const TechStack = nextDynamic(() => import("../components/tech-stack"));
 import { db } from "@repo/database";
 
 export default async function Home() {

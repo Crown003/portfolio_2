@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@repo/database";
 
 export async function PUT(
@@ -17,6 +18,10 @@ export async function PUT(
       data: { showOnHome }
     });
 
+    // Revalidate homepage and admin feedback list immediately
+    revalidatePath("/");
+    revalidatePath("/admin/feedback");
+
     return NextResponse.json(testimonial);
   } catch (error: any) {
     console.error("Failed to update feedback:", error);
@@ -34,6 +39,10 @@ export async function DELETE(
     await db.testimonial.delete({
       where: { id }
     });
+
+    // Revalidate homepage and admin feedback list immediately
+    revalidatePath("/");
+    revalidatePath("/admin/feedback");
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
