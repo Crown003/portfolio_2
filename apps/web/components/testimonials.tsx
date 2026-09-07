@@ -89,7 +89,9 @@ function TestimonialCard({ t }: { t: DbTestimonial }) {
             {t.clientName}
           </span>
           <span className="text-[13px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
-            {t.clientRole || (t.project && `Project: ${t.project.title}`) || "Client"}
+            {t.clientRole 
+              ? (t.project ? `${t.clientRole} • ${t.project.title}` : t.clientRole) 
+              : (t.project ? `Project: ${t.project.title}` : "Professional Endorsement")}
           </span>
         </div>
       </div>
